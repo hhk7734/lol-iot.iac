@@ -14,7 +14,8 @@ terraform {
   required_version = ">= 1.7, < 2.0"
 
   backend "local" {
-    path = "${local.cluster_dir}/terraform/core/terraform.tfstate"
+    # 변수 허용 안됨
+    path = "../../../../local_secret/ap-northeast-2/loliot/terraform/core/terraform.tfstate"
   }
 }
 
