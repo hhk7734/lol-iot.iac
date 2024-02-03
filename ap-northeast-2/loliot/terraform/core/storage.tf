@@ -11,10 +11,6 @@ import {
 resource "kubernetes_namespace" "storage" {
   metadata {
     name = "storage"
-    labels = {
-      "app.kubernetes.io/managed-by" = "pulumi"
-      "loliot.net/stack"             = "ap-northeast-2.loliot-net.storage"
-    }
   }
 }
 

@@ -1,10 +1,6 @@
 resource "kubernetes_namespace" "auth" {
   metadata {
     name = "auth"
-    labels = {
-      "app.kubernetes.io/managed-by" = "pulumi"
-      "loliot.net/stack"             = "ap-northeast-2.loliot-net.auth"
-    }
   }
 }
 
@@ -17,9 +13,7 @@ resource "helm_release" "cert-manager" {
   values = [jsonencode(
     {
       global = {
-        commonLabels = {
-          "loliot.net/stack" = "ap-northeast-2.loliot-net.auth"
-        }
+        commonLabels = {}
       }
       installCRDs               = true
       enableCertificateOwnerRef = true
