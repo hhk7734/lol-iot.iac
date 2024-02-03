@@ -48,4 +48,10 @@ locals {
       ]
     }
   }
+
+  master_toleration = {
+    effect   = "NoSchedule"
+    key      = "node-role.kubernetes.io/master"
+    operator = "Exists"
+  }
 }

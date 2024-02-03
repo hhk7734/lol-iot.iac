@@ -29,16 +29,8 @@ resource "helm_release" "local-path-provisioner" {
       storageClass = {
         defaultClass = true
       }
-      affinity = {
-        nodeAffinity = local.control_plane_node_affinity
-      }
-      tolerations = [
-        {
-          effect   = "NoSchedule"
-          key      = "node-role.kubernetes.io/master"
-          operator = "Exists"
-        },
-      ]
+      affinity    = { nodeAffinity = local.control_plane_node_affinity }
+      tolerations = [local.master_toleration]
     }
   )]
   wait = true
@@ -66,16 +58,8 @@ resource "helm_release" "postgresql" {
             memory = "256Mi"
           }
         }
-        affinity = {
-          nodeAffinity = local.control_plane_node_affinity
-        }
-        tolerations = [
-          {
-            effect   = "NoSchedule"
-            key      = "node-role.kubernetes.io/master"
-            operator = "Exists"
-          },
-        ]
+        affinity    = { nodeAffinity = local.control_plane_node_affinity }
+        tolerations = [local.master_toleration]
       }
     }
   )]

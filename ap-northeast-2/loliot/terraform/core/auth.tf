@@ -29,51 +29,19 @@ resource "helm_release" "cert-manager" {
           memory = "32Mi"
         }
       }
-      affinity = {
-        nodeAffinity = local.control_plane_node_affinity
-      }
-      tolerations = [
-        {
-          effect   = "NoSchedule"
-          key      = "node-role.kubernetes.io/master"
-          operator = "Exists"
-        },
-      ]
+      affinity    = { nodeAffinity = local.control_plane_node_affinity }
+      tolerations = [local.master_toleration]
       cainjector = {
-        affinity = {
-          nodeAffinity = local.control_plane_node_affinity
-        }
-        tolerations = [
-          {
-            effect   = "NoSchedule"
-            key      = "node-role.kubernetes.io/master"
-            operator = "Exists"
-          },
-        ]
+        affinity    = { nodeAffinity = local.control_plane_node_affinity }
+        tolerations = [local.master_toleration]
       }
       startupapicheck = {
-        affinity = {
-          nodeAffinity = local.control_plane_node_affinity
-        }
-        tolerations = [
-          {
-            effect   = "NoSchedule"
-            key      = "node-role.kubernetes.io/master"
-            operator = "Exists"
-          },
-        ]
+        affinity    = { nodeAffinity = local.control_plane_node_affinity }
+        tolerations = [local.master_toleration]
       }
       webhook = {
-        affinity = {
-          nodeAffinity = local.control_plane_node_affinity
-        }
-        tolerations = [
-          {
-            effect   = "NoSchedule"
-            key      = "node-role.kubernetes.io/master"
-            operator = "Exists"
-          },
-        ]
+        affinity    = { nodeAffinity = local.control_plane_node_affinity }
+        tolerations = [local.master_toleration]
       }
     }
   )]
@@ -109,16 +77,8 @@ resource "helm_release" "casdoor" {
                             origin =
                             enableGzip = true
                         EOT
-      affinity = {
-        nodeAffinity = local.control_plane_node_affinity
-      }
-      tolerations = [
-        {
-          effect   = "NoSchedule"
-          key      = "node-role.kubernetes.io/master"
-          operator = "Exists"
-        },
-      ]
+      affinity         = { nodeAffinity = local.control_plane_node_affinity }
+      tolerations      = [local.master_toleration]
     }
   )]
   wait = true
