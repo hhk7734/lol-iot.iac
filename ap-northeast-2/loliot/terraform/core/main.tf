@@ -30,4 +30,22 @@ provider "helm" {
 
 locals {
   charts_dir = "${path.root}/../../../../charts"
+
+  control_plane_node_affinity = {
+    requiredDuringSchedulingIgnoredDuringExecution = {
+      nodeSelectorTerms = [
+        {
+          matchExpressions = [
+            {
+              key      = "node-role.kubernetes.io/control-plane"
+              operator = "In"
+              values = [
+                "true",
+              ]
+            },
+          ]
+        },
+      ]
+    }
+  }
 }

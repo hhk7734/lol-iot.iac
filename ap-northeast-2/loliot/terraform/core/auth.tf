@@ -30,23 +30,7 @@ resource "helm_release" "cert-manager" {
         }
       }
       affinity = {
-        nodeAffinity = {
-          requiredDuringSchedulingIgnoredDuringExecution = {
-            nodeSelectorTerms = [
-              {
-                matchExpressions = [
-                  {
-                    key      = "node-role.kubernetes.io/control-plane"
-                    operator = "In"
-                    values = [
-                      "true",
-                    ]
-                  },
-                ]
-              },
-            ]
-          }
-        }
+        nodeAffinity = local.control_plane_node_affinity
       }
       tolerations = [
         {
@@ -57,23 +41,7 @@ resource "helm_release" "cert-manager" {
       ]
       cainjector = {
         affinity = {
-          nodeAffinity = {
-            requiredDuringSchedulingIgnoredDuringExecution = {
-              nodeSelectorTerms = [
-                {
-                  matchExpressions = [
-                    {
-                      key      = "node-role.kubernetes.io/control-plane"
-                      operator = "In"
-                      values = [
-                        "true",
-                      ]
-                    },
-                  ]
-                },
-              ]
-            }
-          }
+          nodeAffinity = local.control_plane_node_affinity
         }
         tolerations = [
           {
@@ -85,23 +53,7 @@ resource "helm_release" "cert-manager" {
       }
       startupapicheck = {
         affinity = {
-          nodeAffinity = {
-            requiredDuringSchedulingIgnoredDuringExecution = {
-              nodeSelectorTerms = [
-                {
-                  matchExpressions = [
-                    {
-                      key      = "node-role.kubernetes.io/control-plane"
-                      operator = "In"
-                      values = [
-                        "true",
-                      ]
-                    },
-                  ]
-                },
-              ]
-            }
-          }
+          nodeAffinity = local.control_plane_node_affinity
         }
         tolerations = [
           {
@@ -113,23 +65,7 @@ resource "helm_release" "cert-manager" {
       }
       webhook = {
         affinity = {
-          nodeAffinity = {
-            requiredDuringSchedulingIgnoredDuringExecution = {
-              nodeSelectorTerms = [
-                {
-                  matchExpressions = [
-                    {
-                      key      = "node-role.kubernetes.io/control-plane"
-                      operator = "In"
-                      values = [
-                        "true",
-                      ]
-                    },
-                  ]
-                },
-              ]
-            }
-          }
+          nodeAffinity = local.control_plane_node_affinity
         }
         tolerations = [
           {
@@ -174,23 +110,7 @@ resource "helm_release" "casdoor" {
                             enableGzip = true
                         EOT
       affinity = {
-        nodeAffinity = {
-          requiredDuringSchedulingIgnoredDuringExecution = {
-            nodeSelectorTerms = [
-              {
-                matchExpressions = [
-                  {
-                    key      = "node-role.kubernetes.io/control-plane"
-                    operator = "In"
-                    values = [
-                      "true",
-                    ]
-                  },
-                ]
-              },
-            ]
-          }
-        }
+        nodeAffinity = local.control_plane_node_affinity
       }
       tolerations = [
         {

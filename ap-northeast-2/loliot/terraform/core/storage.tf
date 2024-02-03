@@ -30,23 +30,7 @@ resource "helm_release" "local-path-provisioner" {
         defaultClass = true
       }
       affinity = {
-        nodeAffinity = {
-          requiredDuringSchedulingIgnoredDuringExecution = {
-            nodeSelectorTerms = [
-              {
-                matchExpressions = [
-                  {
-                    key      = "node-role.kubernetes.io/control-plane"
-                    operator = "In"
-                    values = [
-                      "true",
-                    ]
-                  },
-                ]
-              },
-            ]
-          }
-        }
+        nodeAffinity = local.control_plane_node_affinity
       }
       tolerations = [
         {
@@ -83,23 +67,7 @@ resource "helm_release" "postgresql" {
           }
         }
         affinity = {
-          nodeAffinity = {
-            requiredDuringSchedulingIgnoredDuringExecution = {
-              nodeSelectorTerms = [
-                {
-                  matchExpressions = [
-                    {
-                      key      = "node-role.kubernetes.io/control-plane"
-                      operator = "In"
-                      values = [
-                        "true",
-                      ]
-                    },
-                  ]
-                },
-              ]
-            }
-          }
+          nodeAffinity = local.control_plane_node_affinity
         }
         tolerations = [
           {
