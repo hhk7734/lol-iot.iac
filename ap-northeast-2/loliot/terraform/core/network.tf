@@ -3,7 +3,6 @@ resource "helm_release" "cilium" {
   max_history = 3
   name        = "cilium"
   namespace   = "kube-system"
-  repository  = null
   timeout     = 300
   values = [jsonencode(
     {
