@@ -1,13 +1,3 @@
-import {
-  to = kubernetes_namespace.storage
-  id = "storage"
-}
-
-import {
-  to = helm_release.postgresql
-  id = "storage/postgresql"
-}
-
 resource "kubernetes_namespace" "storage" {
   metadata {
     name = "storage"
