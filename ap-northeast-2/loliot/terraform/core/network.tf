@@ -1,5 +1,5 @@
 resource "helm_release" "cilium" {
-  chart       = "../../../../charts/cilium-1.14.6.tgz"
+  chart       = "${local.charts_dir}/cilium-1.14.6.tgz"
   max_history = 3
   name        = "cilium"
   namespace   = "kube-system"

@@ -27,3 +27,7 @@ provider "helm" {
     config_path = "../../../../local_secret/ap-northeast-2/loliot/k0s/kubeconfig"
   }
 }
+
+locals {
+  charts_dir = "${path.root}/../../../../charts"
+}
