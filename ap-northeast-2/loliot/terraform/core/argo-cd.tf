@@ -95,3 +95,32 @@ resource "kubernetes_manifest" "virtualservice-argo-cd" {
     }
   }
 }
+
+resource "kubernetes_secret" "github-hhk7734-creds" {
+  metadata {
+    name      = "github-hhk7734-creds"
+    namespace = kubernetes_namespace.argo-cd.metadata[0].name
+    labels = {
+      "argocd.argoproj.io/secret-type" = "repo-creds"
+    }
+  }
+  data = {
+    type          = "git"
+    url           = "git@github.com:hhk7734"
+    sshPrivateKey = file("${local.secret_dir}/argo-cd/sshPrivateKey")
+  }
+}
+
+resource "kubernetes_secret" "github-hhk7734-argo-cd-repo" {
+  metadata {
+    name      = "github-hhk7734-argo-cd-repo"
+    namespace = kubernetes_namespace.argo-cd.metadata[0].name
+    labels = {
+      "argocd.argoproj.io/secret-type" = "repository"
+    }
+  }
+  data = {
+    type = "git"
+    url  = "git@github.com:hhk7734/argo-cd.git"
+  }
+}
