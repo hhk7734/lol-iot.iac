@@ -124,3 +124,64 @@ resource "kubernetes_secret" "github-hhk7734-argo-cd-repo" {
     url  = "git@github.com:hhk7734/argo-cd.git"
   }
 }
+
+resource "kubernetes_manifest" "appproject-loliot" {
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "AppProject"
+    metadata = {
+      name       = "loliot"
+      namespace  = kubernetes_namespace.argo-cd.metadata[0].name
+      finalizers = ["resources-finalizer.argocd.argoproj.io"]
+    }
+    spec = {
+      description = ""
+      sourceRepos = [
+        "git@github.com:hhk7734/argo-cd.git"
+      ]
+      destinations = [
+        {
+          name      = "in-cluster"
+          namespace = "*"
+        }
+      ]
+    }
+  }
+
+}
+
+resource "kubernetes_manifest" "application-loliot-wiki" {
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name       = "loliot-wiki"
+      namespace  = kubernetes_namespace.argo-cd.metadata[0].name
+      finalizers = ["resources-finalizer.argocd.argoproj.io"]
+    }
+    spec = {
+      project = kubernetes_manifest.appproject-loliot.manifest.metadata.name
+      source = {
+        repoURL        = "git@github.com:hhk7734/argo-cd.git"
+        path           = "wiki"
+        targetRevision = "main"
+        helm = {
+          valueFiles = [
+            "cd/prod-values.yaml"
+          ]
+        }
+      }
+      destination = {
+        name      = "in-cluster"
+        namespace = "loliot"
+      }
+      revisionHistoryLimit = 5
+      syncPolicy = {
+        automated = {
+          prune    = true
+          selfHeal = true
+        }
+      }
+    }
+  }
+}
