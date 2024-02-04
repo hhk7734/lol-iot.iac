@@ -31,6 +31,7 @@ provider "helm" {
 
 locals {
   cluster_dir = "${path.root}/../../../../local_secret/ap-northeast-2/loliot"
+  secret_dir  = "${path.root}/../../../../local_secret/ap-northeast-2/loliot/terraform/secret"
   charts_dir  = "${path.root}/../../../../charts"
 
   control_plane_node_affinity = {
