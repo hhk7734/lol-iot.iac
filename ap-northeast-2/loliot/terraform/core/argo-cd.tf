@@ -9,7 +9,7 @@ resource "kubernetes_secret" "argo-cd-client-secret" {
     name      = "argo-cd-client-secret"
     namespace = kubernetes_namespace.argo-cd.metadata[0].name
     labels = {
-      "app.kubernetes.io/part-of" = "argo-cd"
+      "app.kubernetes.io/part-of" = "argocd"
     }
   }
   data = {
