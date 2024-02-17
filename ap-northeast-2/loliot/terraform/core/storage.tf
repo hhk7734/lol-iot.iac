@@ -52,3 +52,21 @@ resource "helm_release" "postgresql" {
   wait       = true
   depends_on = [helm_release.local-path-provisioner]
 }
+
+resource "kubernetes_namespace" "rook-ceph" {
+  metadata {
+    name = "rook-ceph"
+  }
+}
+
+resource "helm_release" "rook-ceph" {
+  chart       = "${local.charts_dir}/rook-ceph-v1.13.4.tgz"
+  max_history = 3
+  name        = "rook-ceph"
+  namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
+  timeout     = 300
+  values = [
+    jsonencode({})
+  ]
+  wait = true
+}
