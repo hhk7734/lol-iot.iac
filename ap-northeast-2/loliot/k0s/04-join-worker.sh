@@ -11,4 +11,6 @@ sudo k0s install worker \
 
 sudo k0s start
 
+sleep 5
+
 sudo k0s status -o yaml
