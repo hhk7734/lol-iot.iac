@@ -1,0 +1,1 @@
+from home_loliot.monitoring import metrics_server # noqa

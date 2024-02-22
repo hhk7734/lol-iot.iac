@@ -1,0 +1,5 @@
+name: home_loliot
+runtime:
+  name: python
+backend:
+  url: file://../../../../../local_secret?no_tmp_dir=true
