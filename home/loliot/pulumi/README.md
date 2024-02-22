@@ -1,10 +1,16 @@
 ## Home loliot k8s cluster
 
-### Stack Dependencies
+### Deployment DAG
 
 ```mermaid
-flowchart TD
+flowchart TB
     subgraph Core
         Network
     end
+
+    subgraph Monitoring
+        metrics-server
+    end
+
+    Core --> Monitoring
 ```
