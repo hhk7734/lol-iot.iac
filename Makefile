@@ -8,3 +8,4 @@ remove_local:
 backup_secret:
 	rm -rf local_secret/.pulumi/history
 	rm -rf local_secret/.pulumi/backups
+	tar -czvf `date "+%Y-%m-%d-%H"`_local_secret.tar.gz local_secret

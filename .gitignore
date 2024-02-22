@@ -302,3 +302,5 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,terraform,visualstudiocode,python
+
+*_local_secret.tar.gz
