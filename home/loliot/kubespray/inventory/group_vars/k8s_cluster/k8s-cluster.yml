@@ -26,7 +26,7 @@ local_release_dir: "/tmp/releases"
 retry_stagger: 5
 
 # This is the user that owns tha cluster installation.
-kube_owner: kube
+kube_owner: root
 
 # This is the group that the cert creation scripts chgrp the
 # cert files to. Not really changeable...
@@ -41,7 +41,6 @@ credentials_dir: "{{ inventory_dir }}/credentials"
 ## It is possible to activate / deactivate selected authentication methods (oidc, static token auth)
 # kube_oidc_auth: false
 # kube_token_auth: false
-
 
 ## Variables for OpenID Connect Configuration https://kubernetes.io/docs/admin/authentication/
 ## To use OpenID you have to deploy additional an OpenID Provider (e.g Dex, Keycloak, ...)
@@ -67,7 +66,7 @@ credentials_dir: "{{ inventory_dir }}/credentials"
 
 # Choose network plugin (cilium, calico, kube-ovn, weave or flannel. Use cni for generic cni plugin)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: cni
 
 # Setting multi_networking to true will install Multus: https://github.com/k8snetworkplumbingwg/multus-cni
 kube_network_plugin_multus: false
@@ -118,7 +117,7 @@ kube_network_node_prefix_ipv6: 120
 
 # The port the API Server will be listening on.
 kube_apiserver_ip: "{{ kube_service_addresses | ipaddr('net') | ipaddr(1) | ipaddr('address') }}"
-kube_apiserver_port: 6443  # (https)
+kube_apiserver_port: 6443 # (https)
 
 # Kube-proxy proxyMode configuration.
 # Can be ipvs, iptables
