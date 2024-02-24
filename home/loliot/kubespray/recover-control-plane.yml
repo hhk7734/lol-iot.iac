@@ -1,0 +1,3 @@
+---
+- name: Import upstream/recover-control-plane.yml
+  ansible.builtin.import_playbook: upstream/recover-control-plane.yml

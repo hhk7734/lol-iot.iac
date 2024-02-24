@@ -1,0 +1,3 @@
+---
+- name: Import upstream/upgrade-cluster.yml
+  ansible.builtin.import_playbook: upstream/upgrade-cluster.yml
