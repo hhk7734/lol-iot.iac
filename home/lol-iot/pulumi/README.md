@@ -1,4 +1,4 @@
-## Home loliot k8s cluster
+## Home lol-IoT k8s cluster
 
 ### Deployment DAG
 

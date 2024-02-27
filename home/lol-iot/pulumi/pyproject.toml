@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "home_loliot"
+name = "lol_iot_iac"
 version = "0.1.0"
 description = ""
 authors = ["Hyeonki Hong <hhk7734@gmail.com>"]

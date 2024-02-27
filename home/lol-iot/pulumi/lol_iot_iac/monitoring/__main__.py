@@ -1,0 +1,1 @@
+from lol_iot_iac.monitoring import metrics_server # noqa

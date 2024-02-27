@@ -9,7 +9,7 @@ resource "helm_release" "cilium" {
       k8sServiceHost = "10.255.240.2"
       k8sServicePort = "6443"
       cluster = {
-        name = "ap-northeast-2-loliot-net"
+        name = "ap-northeast-2-lol-iot"
       }
       ipam = {
         mode = "cluster-pool"

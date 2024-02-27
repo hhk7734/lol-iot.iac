@@ -15,7 +15,7 @@ terraform {
 
   backend "local" {
     # 변수 허용 안됨
-    path = "../../../../local_secret/ap-northeast-2/loliot/terraform/core/terraform.tfstate"
+    path = "../../../../local_secret/ap-northeast-2/lol-iot/terraform/core/terraform.tfstate"
   }
 }
 
@@ -30,8 +30,8 @@ provider "helm" {
 }
 
 locals {
-  cluster_dir = "${path.root}/../../../../local_secret/ap-northeast-2/loliot"
-  secret_dir  = "${path.root}/../../../../local_secret/ap-northeast-2/loliot/terraform/secret"
+  cluster_dir = "${path.root}/../../../../local_secret/ap-northeast-2/lol-iot"
+  secret_dir  = "${path.root}/../../../../local_secret/ap-northeast-2/lol-iot/terraform/secret"
   charts_dir  = "${path.root}/../../../../charts"
 
   control_plane_node_affinity = {

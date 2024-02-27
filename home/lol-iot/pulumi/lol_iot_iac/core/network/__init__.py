@@ -2,7 +2,7 @@ import pulumi
 import pulumi_kubernetes as k8s
 import yaml
 
-from home_loliot.core import variable
+from lol_iot_iac.core import variable
 
 cilium = k8s.helm.v3.Release(
     "cilium",
@@ -15,7 +15,7 @@ cilium = k8s.helm.v3.Release(
         k8sServiceHost: "192.168.11.101"
         k8sServicePort: "6443"
         cluster:
-          name: "home-loliot"
+          name: "home-lol-iot"
         ipam:
           mode: "cluster-pool"
           operator:

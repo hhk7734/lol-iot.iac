@@ -1,6 +1,6 @@
 import pulumi_kubernetes as k8s
 
-from home_loliot.monitoring import variable
+from lol_iot_iac.monitoring import variable
 
 k8s.helm.v3.Release(
     "metrics-server",

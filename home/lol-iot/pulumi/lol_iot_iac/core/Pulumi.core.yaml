@@ -1,3 +1,3 @@
 encryptionsalt: v1:pgRhPzUpfuY=:v1:ZYbUXMsUHbWqmkZ+:yZxbSgkQVvFkL6pYU8wy57ugHyz5GA==
 config:
-  kubernetes:context: arn:loliot:k8s:home:hhk7734:cluster/loliot/user/admin
+  kubernetes:context: arn:lol-iot:k8s:home:hhk7734:cluster/lol-iot/user/admin
