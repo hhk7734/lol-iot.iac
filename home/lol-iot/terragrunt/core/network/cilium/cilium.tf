@@ -1,22 +1,22 @@
 resource "helm_release" "cilium" {
   chart       = "${local.charts_dir}/cilium-1.14.6.tgz"
-  max_history = 3
+  max_history = 5
   name        = "cilium"
   namespace   = "kube-system"
   timeout     = 300
   values = [jsonencode(
     {
-      k8sServiceHost = "10.255.240.2"
+      k8sServiceHost = "192.168.0.11"
       k8sServicePort = "6443"
       cluster = {
-        name = "ap-northeast-2-lol-iot"
+        name = "home-lol-iot"
       }
       ipam = {
         mode = "cluster-pool"
         operator = {
           clusterPoolIPv4MaskSize = 25
           clusterPoolIPv4PodCIDRList = [
-            "10.244.0.0/16",
+            "10.233.64.0/18",
           ]
         }
       },
