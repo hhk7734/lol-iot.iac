@@ -1,43 +1,49 @@
 all:
-  vars:
-    download_run_once: true
-
-    kubelet_fail_swap_on: false
-    kubelet_swap_behavior: UnlimitedSwap
-    kubelet_feature_gates:
-      - NodeSwap=true
-
   hosts:
     ip-192-168-0-11:
       ansible_host: 192.168.0.11
       ip: 192.168.0.11
-      access_ip: 192.168.0.11
-
     ip-192-168-0-12:
       ansible_host: 192.168.0.12
       ip: 192.168.0.12
-
     ip-192-168-0-16:
       ansible_host: 192.168.0.16
       ip: 192.168.0.16
       node_taints:
         - "loliot.net/storage=true:NoSchedule"
+    ip-192-168-0-18:
+      ansible_host: 192.168.0.18
+      ip: 192.168.0.18
+      access_ip: 192.168.0.18
+      node_taints:
+        - "loliot.net/storage=true:NoSchedule"
 
 kube_control_plane:
   hosts:
-    ip-192-168-0-11:
+    ip-192-168-0-18:
     ip-192-168-0-12:
     ip-192-168-0-16:
 
 etcd:
   hosts:
-    ip-192-168-0-11:
+    ip-192-168-0-18:
     ip-192-168-0-12:
     ip-192-168-0-16:
 
 kube_node:
   hosts:
     ip-192-168-0-16:
+    ip-192-168-0-18:
+
+swap_node_group:
+  hosts:
+    ip-192-168-0-12:
+    ip-192-168-0-16:
+  vars:
+    kubelet_fail_swap_on: false
+    kubelet_swap_behavior: UnlimitedSwap
+    kubelet_feature_gates:
+      - NodeSwap=true
 
 k8s_cluster:
   children:
