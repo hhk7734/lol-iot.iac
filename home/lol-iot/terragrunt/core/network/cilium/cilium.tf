@@ -6,10 +6,13 @@ resource "helm_release" "cilium" {
   timeout     = 300
   values = [jsonencode(
     {
-      k8sServiceHost = "192.168.0.11"
+      k8sServiceHost = "localhost"
       k8sServicePort = "6443"
       cluster = {
         name = "home-lol-iot"
+      }
+      l2announcements = {
+        enabled = "true"
       }
       ipam = {
         mode = "cluster-pool"
