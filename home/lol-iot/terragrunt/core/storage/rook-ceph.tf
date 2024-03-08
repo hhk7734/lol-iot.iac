@@ -113,6 +113,14 @@ resource "helm_release" "rook-ceph-cluster" {
                   name = "/dev/sda"
                 }
               ]
+            },
+            {
+              name = "ip-192-168-0-11"
+              devices = [
+                {
+                  name = "/dev/sda"
+                }
+              ]
             }
           ]
         }
