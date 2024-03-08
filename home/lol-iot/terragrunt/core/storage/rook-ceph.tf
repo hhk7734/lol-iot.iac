@@ -48,7 +48,7 @@ resource "helm_release" "rook-ceph" {
             operator = "Exists"
           }
         ]
-        kubeletDirPath = "/var/lib/k0s/kubelet"
+        kubeletDirPath = "/var/lib/kubelet"
       }
     })
   ]
