@@ -46,6 +46,10 @@ resource "helm_release" "rook-ceph" {
           {
             key      = "node-role.kubernetes.io/control-plane"
             operator = "Exists"
+          },
+          {
+            key      = "loliot.net/storage"
+            operator = "Exists"
           }
         ]
         kubeletDirPath = "/var/lib/kubelet"
@@ -147,6 +151,14 @@ resource "helm_release" "rook-ceph-cluster" {
             metadataServer = {
               activeCount   = 1
               activeStandby = true
+              placement = {
+                tolerations = [
+                  {
+                    key      = "loliot.net/storage"
+                    operator = "Exists"
+                  }
+                ]
+              }
               resources = {
                 requests = null
                 limits   = null
