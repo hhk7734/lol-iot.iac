@@ -12,6 +12,16 @@ resource "helm_release" "rook-ceph" {
   timeout     = 300
   values = [
     jsonencode({
+      resources = {
+        requests = {
+          cpu    = "200m"
+          memory = "128Mi"
+        }
+        limits = {
+          cpu    = "1"
+          memory = "512Mi"
+        }
+      }
       tolerations = [
         {
           key      = "node-role.kubernetes.io/control-plane"
@@ -54,6 +64,15 @@ resource "helm_release" "rook-ceph" {
         ]
         kubeletDirPath = "/var/lib/kubelet"
       }
+      enableDiscoveryDaemon = true
+      discover = {
+        tolerations = [
+          {
+            key      = "loliot.net/storage"
+            operator = "Exists"
+          }
+        ]
+      }
     })
   ]
   wait = true
@@ -74,6 +93,12 @@ resource "helm_release" "rook-ceph-cluster" {
         }
         mgr = {
           count = 1
+          modules = [
+            {
+              name    = "rook"
+              enabled = true
+            }
+          ]
         }
         dashboard = {
           enabled = true
