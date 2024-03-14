@@ -6,8 +6,8 @@ image:
   # -- Image
   repository: rook/ceph
   # -- Image tag
-  # @default -- `v1.13.4`
-  tag: v1.13.4
+  # @default -- `v1.13.6`
+  tag: v1.13.6
   # -- Image pull policy
   pullPolicy: IfNotPresent
 
@@ -469,32 +469,32 @@ csi:
 
   cephcsi:
     # -- Ceph CSI image
-    # @default -- `quay.io/cephcsi/cephcsi:v3.10.1`
+    # @default -- `quay.io/cephcsi/cephcsi:v3.10.2`
     image:
 
   registrar:
     # -- Kubernetes CSI registrar image
-    # @default -- `registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.9.1`
+    # @default -- `registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.10.0`
     image:
 
   provisioner:
     # -- Kubernetes CSI provisioner image
-    # @default -- `registry.k8s.io/sig-storage/csi-provisioner:v3.6.3`
+    # @default -- `registry.k8s.io/sig-storage/csi-provisioner:v4.0.0`
     image:
 
   snapshotter:
     # -- Kubernetes CSI snapshotter image
-    # @default -- `registry.k8s.io/sig-storage/csi-snapshotter:v6.3.2`
+    # @default -- `registry.k8s.io/sig-storage/csi-snapshotter:v7.0.1`
     image:
 
   attacher:
     # -- Kubernetes CSI Attacher image
-    # @default -- `registry.k8s.io/sig-storage/csi-attacher:v4.4.2`
+    # @default -- `registry.k8s.io/sig-storage/csi-attacher:v4.5.0`
     image:
 
   resizer:
     # -- Kubernetes CSI resizer image
-    # @default -- `registry.k8s.io/sig-storage/csi-resizer:v1.9.2`
+    # @default -- `registry.k8s.io/sig-storage/csi-resizer:v1.10.0`
     image:
 
   # -- Image pull policy

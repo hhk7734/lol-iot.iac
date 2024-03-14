@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph" {
-  chart       = "${local.charts_dir}/rook-ceph-v1.13.4.tgz"
+  chart       = "${local.charts_dir}/rook-ceph-v1.13.6.tgz"
   max_history = 5
   name        = "rook-ceph"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
@@ -79,8 +79,8 @@ resource "helm_release" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph-cluster" {
-  chart       = "${local.charts_dir}/rook-ceph-cluster-v1.13.4.tgz"
-  max_history = 3
+  chart       = "${local.charts_dir}/rook-ceph-cluster-v1.13.6.tgz"
+  max_history = 5
   name        = "rook-ceph-cluster"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
   timeout     = 300
