@@ -7,5 +7,8 @@ locals {
 }
 
 dependencies {
-  paths = ["${local.root_dir}/network/cilium"]
+  paths = [
+    "${local.root_dir}/storage/local-path-provisioner",
+    "${local.root_dir}/monitoring/prometheus",
+  ]
 }

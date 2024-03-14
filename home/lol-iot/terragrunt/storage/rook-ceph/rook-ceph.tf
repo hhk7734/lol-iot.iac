@@ -101,8 +101,13 @@ resource "helm_release" "rook-ceph-cluster" {
           ]
         }
         dashboard = {
+          enabled                     = true
+          ssl                         = false
+          prometheusEndpoint          = "http://prometheus-operated:9090"
+          prometheusEndpointSSLVerify = false
+        }
+        monitoring = {
           enabled = true
-          ssl     = false
         }
         logCollector = {
           enabled = false

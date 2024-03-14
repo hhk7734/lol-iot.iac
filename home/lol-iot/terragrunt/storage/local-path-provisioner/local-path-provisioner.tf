@@ -10,31 +10,6 @@ resource "helm_release" "local-path-provisioner" {
   name        = "local-path-provisioner"
   namespace   = kubernetes_namespace.local-path-provisioner.metadata[0].name
   timeout     = 300
-  values = [jsonencode(
-    {
-      affinity = {
-        nodeAffinity = {
-          requiredDuringSchedulingIgnoredDuringExecution = {
-            nodeSelectorTerms = [
-              {
-                matchExpressions = [
-                  {
-                    key      = "kubernetes.io/hostname"
-                    operator = "In"
-                    values   = ["ip-192-168-0-18"]
-                  }
-                ]
-              }
-            ]
-          }
-
-        }
-      }
-      tolerations = [{
-        key      = "loliot.net/storage"
-        operator = "Exists"
-      }]
-    }
-  )]
-  wait = true
+  values      = []
+  wait        = true
 }
