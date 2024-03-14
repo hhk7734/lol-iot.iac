@@ -8,7 +8,6 @@ locals {
 
 dependencies {
   paths = [
-    "${local.root_dir}/core/network/cilium",
-    "${local.root_dir}/monitoring"
+    "${local.root_dir}/network/cilium",
   ]
 }

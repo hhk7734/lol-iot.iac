@@ -7,7 +7,7 @@ locals {
 }
 
 dependencies {
-  paths = ["${local.root_dir}/core/network/cilium"]
+  paths = ["${local.root_dir}/network/cilium"]
 }
 
 retryable_errors = [
