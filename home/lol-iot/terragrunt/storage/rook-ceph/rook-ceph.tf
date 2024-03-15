@@ -5,7 +5,7 @@ resource "kubernetes_namespace" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph" {
-  chart       = "${local.charts_dir}/rook-ceph-v1.13.6.tgz"
+  chart       = "${local.charts_dir}/rook-ceph-v1.13.7.tgz"
   max_history = 5
   name        = "rook-ceph"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
@@ -79,7 +79,7 @@ resource "helm_release" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph-cluster" {
-  chart       = "${local.charts_dir}/rook-ceph-cluster-v1.13.6.tgz"
+  chart       = "${local.charts_dir}/rook-ceph-cluster-v1.13.7.tgz"
   max_history = 5
   name        = "rook-ceph-cluster"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
@@ -94,10 +94,8 @@ resource "helm_release" "rook-ceph-cluster" {
         mgr = {
           count = 1
           modules = [
-            {
-              name    = "rook"
-              enabled = true
-            }
+            { name = "rook", enabled = true },
+            { name = "prometheus", enabled = true }
           ]
         }
         dashboard = {
@@ -105,9 +103,6 @@ resource "helm_release" "rook-ceph-cluster" {
           ssl                         = false
           prometheusEndpoint          = "http://prometheus-operated:9090"
           prometheusEndpointSSLVerify = false
-        }
-        monitoring = {
-          enabled = true
         }
         logCollector = {
           enabled = false
@@ -166,14 +161,14 @@ resource "helm_release" "rook-ceph-cluster" {
           spec = {
             metadataPool = {
               replicated = {
-                size = 1
+                size = 2
               }
             }
             dataPools = [
               {
                 failureDomain = "host"
                 replicated = {
-                  size = 1
+                  size = 2
                 }
                 name = "data0"
               }
