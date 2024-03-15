@@ -8,7 +8,8 @@ locals {
 
 dependencies {
   paths = [
-    "${local.root_dir}/monitoring/prometheus"
+    "${local.root_dir}/monitoring/prometheus",
+    "${local.root_dir}/storage/rook-ceph"
   ]
 }
 
