@@ -56,19 +56,6 @@ resource "kubernetes_manifest" "prometheus" {
     }
     spec = {
       serviceAccountName = kubernetes_service_account.prometheus.metadata[0].name
-      storage = {
-        volumeClaimTemplate = {
-          spec = {
-            accessModes = ["ReadWriteOnce"]
-            resources = {
-              requests = {
-                storage = "10Gi"
-              }
-            }
-            storageClassName = "ceph-filesystem"
-          }
-        }
-      }
       initContainers = [
         {
           name    = "prometheus-permission"
@@ -82,6 +69,24 @@ resource "kubernetes_manifest" "prometheus" {
           ]
         }
       ]
+      storage = {
+        volumeClaimTemplate = {
+          spec = {
+            accessModes = ["ReadWriteOnce"]
+            resources = {
+              requests = {
+                storage = "10Gi"
+              }
+            }
+            storageClassName = "ceph-filesystem"
+          }
+        }
+      }
+      serviceMonitorSelector = {
+        matchLabels = {
+          "loliot.net/prometheus" = "monitoring"
+        }
+      }
     }
   }
   wait {
