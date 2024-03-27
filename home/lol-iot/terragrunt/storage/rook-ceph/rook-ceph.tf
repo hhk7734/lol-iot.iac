@@ -160,6 +160,7 @@ resource "helm_release" "rook-ceph-cluster" {
           name = "ceph-filesystem"
           spec = {
             metadataPool = {
+              failureDomain = "host"
               replicated = {
                 size = 2
               }
@@ -211,7 +212,39 @@ resource "helm_release" "rook-ceph-cluster" {
           }
         }
       ]
-      cephObjectStores = []
+      cephObjectStores = [
+        {
+          name = "ceph-objectstore"
+          spec = {
+            metadataPool = {
+              failureDomain = "host"
+              replicated = {
+                size = 2
+              }
+            }
+            dataPool = {
+              failureDomain = "host"
+              replicated = {
+                size = 2
+              }
+            }
+            gateway = {
+              port              = 80
+              instances         = 1
+              priorityClassName = "system-cluster-critical"
+            }
+          }
+          storageClass = {
+            enabled           = true
+            name              = "ceph-bucket"
+            reclaimPolicy     = "Delete"
+            volumeBindingMode = "Immediate"
+          }
+          ingress = {
+            enabled = false
+          }
+        }
+      ]
     }
   )]
   wait       = true
