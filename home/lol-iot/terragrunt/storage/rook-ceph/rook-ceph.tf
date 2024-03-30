@@ -150,6 +150,14 @@ resource "helm_release" "rook-ceph-cluster" {
                   name = "/dev/sda"
                 }
               ]
+            },
+            {
+              name = "ip-192-168-0-19"
+              devices = [
+                {
+                  name = "/dev/ubuntu-vg/lvol0"
+                }
+              ]
             }
           ]
         }
