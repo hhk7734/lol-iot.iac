@@ -1,3 +1,18 @@
+locals {
+  loki_bucket_env_from = [
+    {
+      secretRef = {
+        name = kubernetes_manifest.loki-bucket.manifest.metadata.name
+      }
+    },
+    {
+      configMapRef = {
+        name = kubernetes_manifest.loki-bucket.manifest.metadata.name
+      }
+    }
+  ]
+}
+
 resource "helm_release" "loki-distributed" {
   chart       = "${local.charts_dir}/loki-distributed-0.78.4.tgz"
   max_history = 5
@@ -24,6 +39,7 @@ resource "helm_release" "loki-distributed" {
         }
         storageConfig = {
           aws = {
+            s3forcepathstyle  = true
             endpoint          = "http://$${BUCKET_HOST}:$${BUCKET_PORT}"
             region            = "$${BUCKET_REGION}"
             bucketnames       = "$${BUCKET_NAME}"
@@ -47,36 +63,25 @@ resource "helm_release" "loki-distributed" {
         extraArgs = [
           "-config.expand-env=true"
         ]
-        extraEnvFrom = [
-          {
-            secretRef = {
-              name = kubernetes_manifest.loki-bucket.manifest.metadata.name
-            }
-          },
-          {
-            configMapRef = {
-              name = kubernetes_manifest.loki-bucket.manifest.metadata.name
-            }
-          }
+        extraEnvFrom = local.loki_bucket_env_from
+      }
+      distributor = {
+        extraArgs = [
+          "-config.expand-env=true"
         ]
+        extraEnvFrom = local.loki_bucket_env_from
       }
       querier = {
         extraArgs = [
           "-config.expand-env=true"
         ]
-        extraEnvFrom = [
-          {
-            secretRef = {
-              name = kubernetes_manifest.loki-bucket.manifest.metadata.name
-            }
-          },
-          {
-            configMapRef = {
-              name = kubernetes_manifest.loki-bucket.manifest.metadata.name
-            }
-          }
-
+        extraEnvFrom = local.loki_bucket_env_from
+      }
+      queryFrontend = {
+        extraArgs = [
+          "-config.expand-env=true"
         ]
+        extraEnvFrom = local.loki_bucket_env_from
       }
     }
   )]

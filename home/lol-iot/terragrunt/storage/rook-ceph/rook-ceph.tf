@@ -28,6 +28,9 @@ resource "helm_release" "rook-ceph" {
           operator = "Exists"
         }
       ]
+      rbacAggregate = {
+        enableOBCs = true
+      }
       csi = {
         enableRbdDriver              = false
         csiCephFSProvisionerResource = <<-EOT
