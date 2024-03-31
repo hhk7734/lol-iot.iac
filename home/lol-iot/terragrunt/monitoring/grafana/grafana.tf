@@ -17,6 +17,13 @@ resource "helm_release" "grafana" {
               isDefault = true
               url       = "http://prometheus-operated.monitoring.svc.cluster.local:9090"
               uid       = "194258a3-be9e-407a-a922-f47535e102d3"
+            },
+            {
+              name      = "loki"
+              type      = "loki"
+              isDefault = false
+              url       = "http://loki-query-frontend.monitoring.svc.cluster.local:3100"
+              uid       = "467772c5-1416-4599-967a-844d3afc17f5"
             }
           ]
         }

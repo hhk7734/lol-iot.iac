@@ -9,5 +9,6 @@ locals {
 dependencies {
   paths = [
     "${local.root_dir}/monitoring/prometheus-cr",
+    "${local.root_dir}/monitoring/loki",
   ]
 }
