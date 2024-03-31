@@ -11,3 +11,11 @@ dependencies {
     "${local.root_dir}/network/cilium",
   ]
 }
+
+dependency "monitoring_namespace" {
+  config_path = "${local.root_dir}/monitoring/namespace"
+}
+
+inputs = {
+  monitoring_namespace = dependency.monitoring_namespace.outputs.namespace
+}

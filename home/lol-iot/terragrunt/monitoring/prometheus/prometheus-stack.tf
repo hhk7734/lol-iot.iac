@@ -2,7 +2,7 @@ resource "helm_release" "prometheus-stack" {
   chart       = "${local.charts_dir}/kube-prometheus-stack-57.0.1.tgz"
   max_history = 5
   name        = "prometheus-stack"
-  namespace   = kubernetes_namespace.monitoring.metadata[0].name
+  namespace   = var.monitoring_namespace
   timeout     = 300
   values = [jsonencode(
     {
