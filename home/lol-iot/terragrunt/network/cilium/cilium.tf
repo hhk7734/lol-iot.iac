@@ -12,7 +12,10 @@ resource "helm_release" "cilium" {
         name = "home-lol-iot"
       }
       l2announcements = {
-        enabled = "true"
+        enabled = true
+      }
+      gatewayAPI = {
+        enabled = true
       }
       ipam = {
         mode = "cluster-pool"
@@ -24,6 +27,9 @@ resource "helm_release" "cilium" {
         }
       },
       kubeProxyReplacement = "true"
+      nodePort = {
+        enabled = true
+      }
       operator = {
         replicas = 1
       }
