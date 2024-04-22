@@ -1,0 +1,25 @@
+---
+lol_iot_downloads:
+  rook_ceph:
+    enabled: true
+    container: true
+    repo: "docker.io/rook/ceph"
+    tag: "v1.13.7"
+    groups:
+      - k8s_cluster
+
+  ceph:
+    enabled: true
+    container: true
+    repo: "quay.io/ceph/ceph"
+    tag: "v18.2.2"
+    groups:
+      - k8s_cluster
+
+  cephcsi:
+    enabled: true
+    container: true
+    repo: "quay.io/cephcsi/cephcsi"
+    tag: "v3.10.2"
+    groups:
+      - k8s_cluster

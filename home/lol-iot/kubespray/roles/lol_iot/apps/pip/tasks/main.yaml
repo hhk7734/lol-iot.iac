@@ -1,0 +1,23 @@
+---
+- name: Gather os specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower | replace('/', '_') }}.yaml"
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_release }}.yaml"
+        - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower | replace('/', '_') }}.yaml"
+        - "{{ ansible_distribution | lower }}.yaml"
+        - "{{ ansible_os_family | lower }}.yaml"
+        - defaults.yaml
+      paths:
+        - ../vars
+      skip: true
+  when: inventory_hostname in groups['kube_control_plane']
+
+- name: Install pip
+  package:
+    name: "{{ pip_package }}"
+    state: present
+  when:
+    - pip_package is defined
+    - inventory_hostname in groups['kube_control_plane']
