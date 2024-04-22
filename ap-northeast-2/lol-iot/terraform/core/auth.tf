@@ -5,7 +5,9 @@ resource "kubernetes_namespace" "auth" {
 }
 
 resource "helm_release" "cert-manager" {
-  chart       = "${local.charts_dir}/cert-manager-v1.13.3.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "cert-manager"
+  version     = "v1.13.3"
   max_history = 3
   name        = "cert-manager"
   namespace   = kubernetes_namespace.auth.metadata[0].name
@@ -43,7 +45,9 @@ resource "helm_release" "cert-manager" {
 }
 
 resource "helm_release" "casdoor" {
-  chart       = "${local.charts_dir}/casdoor-helm-charts-v1.514.0.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "casdoor-helm-charts"
+  version     = "v1.514.0"
   max_history = 3
   name        = "casdoor"
   namespace   = kubernetes_namespace.auth.metadata[0].name

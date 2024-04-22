@@ -14,7 +14,9 @@ locals {
 }
 
 resource "helm_release" "loki-distributed" {
-  chart       = "${local.charts_dir}/loki-distributed-0.78.4.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "loki-distributed"
+  version     = "0.78.4"
   max_history = 5
   name        = "loki-distributed"
   namespace   = var.monitoring_namespace

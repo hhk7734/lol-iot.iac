@@ -5,7 +5,9 @@ resource "kubernetes_namespace" "storage" {
 }
 
 resource "helm_release" "local-path-provisioner" {
-  chart       = "${local.charts_dir}/local-path-provisioner-0.0.25.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "local-path-provisioner"
+  version     = "0.0.25"
   max_history = 3
   name        = "local-path-provisioner"
   namespace   = kubernetes_namespace.storage.metadata[0].name
@@ -23,7 +25,9 @@ resource "helm_release" "local-path-provisioner" {
 }
 
 resource "helm_release" "postgresql" {
-  chart       = "${local.charts_dir}/postgresql-13.4.2.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "postgresql"
+  version     = "13.4.2"
   max_history = 3
   name        = "postgresql"
   namespace   = kubernetes_namespace.storage.metadata[0].name
@@ -60,7 +64,9 @@ resource "kubernetes_namespace" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph" {
-  chart       = "${local.charts_dir}/rook-ceph-v1.13.4.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "rook-ceph"
+  version     = "v1.13.4"
   max_history = 3
   name        = "rook-ceph"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name
@@ -99,7 +105,9 @@ resource "helm_release" "rook-ceph" {
 }
 
 resource "helm_release" "rook-ceph-cluster" {
-  chart       = "${local.charts_dir}/rook-ceph-cluster-v1.13.4.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "rook-ceph-cluster"
+  version     = "v1.13.4"
   max_history = 3
   name        = "rook-ceph-cluster"
   namespace   = kubernetes_namespace.rook-ceph.metadata[0].name

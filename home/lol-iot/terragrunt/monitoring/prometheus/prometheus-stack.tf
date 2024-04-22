@@ -1,5 +1,7 @@
 resource "helm_release" "prometheus-stack" {
-  chart       = "${local.charts_dir}/kube-prometheus-stack-57.0.1.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "kube-prometheus-stack"
+  version     = "57.0.1"
   max_history = 5
   name        = "prometheus-stack"
   namespace   = var.monitoring_namespace

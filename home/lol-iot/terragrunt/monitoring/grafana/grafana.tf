@@ -1,5 +1,7 @@
 resource "helm_release" "grafana" {
-  chart       = "${local.charts_dir}/grafana-7.3.7.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "grafana"
+  version     = "7.3.7"
   max_history = 5
   name        = "grafana"
   namespace   = "monitoring"

@@ -1,5 +1,7 @@
 resource "helm_release" "vector" {
-  chart       = "${local.charts_dir}/vector-0.32.0.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "vector"
+  version     = "0.32.0"
   max_history = 5
   name        = "vector"
   namespace   = var.monitoring_namespace

@@ -32,7 +32,6 @@ provider "helm" {
 locals {
   cluster_dir = "${path.root}/../../../../local_secret/ap-northeast-2/lol-iot"
   secret_dir  = "${path.root}/../../../../local_secret/ap-northeast-2/lol-iot/terraform/secret"
-  charts_dir  = "${path.root}/../../../../charts"
 
   control_plane_node_affinity = {
     requiredDuringSchedulingIgnoredDuringExecution = {

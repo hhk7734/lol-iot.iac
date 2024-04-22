@@ -1,5 +1,7 @@
 resource "helm_release" "cilium" {
-  chart       = "${local.charts_dir}/cilium-1.14.6.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "cilium"
+  version     = "1.14.6"
   max_history = 5
   name        = "cilium"
   namespace   = "kube-system"

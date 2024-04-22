@@ -21,10 +21,6 @@ generate "main" {
   path      = "main.tf"
   if_exists = "overwrite_terragrunt"
   contents  = <<-EOF
-    locals {
-      charts_dir = "${get_path_to_repo_root()}/charts"
-    }
-
     provider "kubernetes" {
       config_paths   = ${local.k8s_config_paths}
       config_context = "${local.k8s_config_context}"

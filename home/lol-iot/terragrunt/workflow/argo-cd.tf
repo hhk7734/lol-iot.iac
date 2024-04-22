@@ -5,7 +5,9 @@ resource "kubernetes_namespace" "argo-cd" {
 }
 
 resource "helm_release" "argo-cd" {
-  chart       = "${local.charts_dir}/argo-cd-5.53.13.tgz"
+  repository  = "https://hhk7734.github.io/helm-charts/"
+  chart       = "argo-cd"
+  version     = "5.53.13"
   max_history = 5
   name        = "argo-cd"
   namespace   = kubernetes_namespace.argo-cd.metadata[0].name
