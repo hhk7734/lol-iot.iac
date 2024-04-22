@@ -1,5 +1,0 @@
-name: home-lol-iot
-runtime:
-  name: python
-backend:
-  url: file://../../../../../local_secret?no_tmp_dir=true

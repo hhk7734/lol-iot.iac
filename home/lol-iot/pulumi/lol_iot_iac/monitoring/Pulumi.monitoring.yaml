@@ -1,3 +1,0 @@
-encryptionsalt: v1:i3RrYDRhbdA=:v1:OIFIquw/jQXAkH5G:6b6Iu6EXjvko8q1yduxWe3ucLdaSDg==
-config:
-  kubernetes:context: arn:lol-iot:k8s:home:hhk7734:cluster/lol-iot/user/admin
