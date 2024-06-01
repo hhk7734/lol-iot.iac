@@ -24,7 +24,7 @@ resource "helm_release" "vector" {
         sources = {
           kubernetes_logs = {
             type                        = "kubernetes_logs"
-            include_paths_glob_patterns = ["# TODO"]
+            include_paths_glob_patterns = ["**/*kube-apiserver*/**"]
           }
         }
         sinks = {

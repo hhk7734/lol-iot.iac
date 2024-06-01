@@ -16,7 +16,7 @@ locals {
 resource "helm_release" "loki-distributed" {
   repository  = "https://hhk7734.github.io/helm-charts/"
   chart       = "loki-distributed"
-  version     = "0.78.4"
+  version     = "0.79.0"
   max_history = 5
   name        = "loki-distributed"
   namespace   = var.monitoring_namespace
@@ -29,9 +29,9 @@ resource "helm_release" "loki-distributed" {
           configs = [
             {
               from         = "2024-03-31"
-              store        = "boltdb-shipper"
+              store        = "tsdb"
               object_store = "s3"
-              schema       = "v12"
+              schema       = "v13"
               index = {
                 prefix = "loki_index_"
                 period = "24h"
@@ -48,10 +48,10 @@ resource "helm_release" "loki-distributed" {
             access_key_id     = "$${AWS_ACCESS_KEY_ID}"
             secret_access_key = "$${AWS_SECRET_ACCESS_KEY}"
           }
-          boltdb_shipper = {
+          tsdb_shipper = {
             shared_store           = "s3"
-            active_index_directory = "/var/loki/index"
-            cache_location         = "/var/loki/cache"
+            active_index_directory = "/var/loki/tsdb-index"
+            cache_location         = "/var/loki/tsdb-cache"
             cache_ttl              = "168h"
           }
         }
