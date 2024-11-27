@@ -1,5 +1,0 @@
-- name: Install kubernetes
-  ansible.builtin.pip:
-    name:
-      - kubernetes
-  when: inventory_hostname in groups['kube_control_plane']

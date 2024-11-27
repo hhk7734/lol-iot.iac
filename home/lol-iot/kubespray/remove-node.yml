@@ -1,3 +1,0 @@
----
-- name: Import upstream/remove-node.yml
-  ansible.builtin.import_playbook: upstream/remove-node.yml
