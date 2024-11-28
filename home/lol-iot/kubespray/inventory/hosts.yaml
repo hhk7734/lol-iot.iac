@@ -21,13 +21,69 @@ all:
       65303932613536333938353834613631353931343833646438326461353337343633373334383436
       6535636630353336650a386664303663323163393738633439363732663937366337343964663862
       6437
+    loliot_domain: !vault |
+      $ANSIBLE_VAULT;1.2;AES256;loliot
+      65613036636665383465646530343266373332333362643437373734393263366239373236623161
+      3761323336306166633439326333656265336166396666620a306635616235616433373134323164
+      61653364656135323037373030396635363561653930333834643036646634633238313530656634
+      6363356162316431640a643161613237386232396362653430393664353665393264346464653066
+      38353566663336666339613037396533656131636431663039643431356538386530
   hosts:
     ip-192-168-0-19:
       ansible_host: 192.168.0.19
       ip: 192.168.0.19
+      node_labels:
+        loliot.net/storage: enabled
+      node_taints:
+        - "loliot.net/storage=enabled:NoSchedule"
     ip-192-168-0-20:
       ansible_host: 192.168.0.20
       ip: 192.168.0.20
+      node_labels:
+        loliot.net/storage: enabled
+      node_taints:
+        - "loliot.net/storage=enabled:NoSchedule"
     ip-192-168-0-21:
       ansible_host: 192.168.0.21
       ip: 192.168.0.21
+      node_labels:
+        loliot.net/storage: enabled
+      node_taints:
+        - "loliot.net/storage=enabled:NoSchedule"
+
+kube_control_plane:
+  hosts:
+    ip-192-168-0-19:
+    ip-192-168-0-20:
+    ip-192-168-0-21:
+
+etcd:
+  hosts:
+    ip-192-168-0-19:
+    ip-192-168-0-20:
+    ip-192-168-0-21:
+
+kube_node:
+  hosts:
+
+k8s_cluster:
+  vars:
+    kube_owner: root
+    kube_network_plugin: cni
+    supplementary_addresses_in_ssl_keys:
+      - 192.168.0.2
+      - 192.168.11.240
+      - "{{ loliot_domain | string }}"
+    dns_extra_tolerations:
+      - key: loliot.net/storage
+        operator: Equal
+        value: enabled
+        effect: NoSchedule
+    dns_autoscaler_extra_tolerations:
+      - key: loliot.net/storage
+        operator: Equal
+        value: enabled
+        effect: NoSchedule
+  children:
+    kube_control_plane:
+    kube_node:
