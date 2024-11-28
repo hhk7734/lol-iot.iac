@@ -1,14 +1,7 @@
-include "root" {
-  path = find_in_parent_folders("root.hcl")
+include "base" {
+  path = find_in_parent_folders("base.hcl")
 }
 
-locals {
-  root_dir = get_parent_terragrunt_dir("root")
-}
-
-dependencies {
-  paths = [
-    "${local.root_dir}/storage/local-path-provisioner",
-    "${local.root_dir}/monitoring/prometheus",
-  ]
+include "kubernetes" {
+  path = find_in_parent_folders("kubernetes.hcl")
 }
