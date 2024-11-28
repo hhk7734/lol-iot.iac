@@ -78,20 +78,6 @@ resource "helm_release" "rook_ceph" {
         kubeletDirPath = "/var/lib/kubelet"
       }
       enableDiscoveryDaemon = true
-      discover = {
-        tolerations = [
-          {
-            key      = "node-role.kubernetes.io/control-plane"
-            operator = "Exists"
-          },
-          {
-            key      = "loliot.net/storage"
-            operator = "Equal"
-            value    = "enabled"
-            effect   = "NoSchedule"
-          }
-        ]
-      }
     })
   ]
 }
