@@ -1,4 +1,4 @@
-resource "helm_release" "metrics-server" {
+resource "helm_release" "metrics_server" {
   repository  = "https://hhk7734.github.io/helm-charts/"
   chart       = "metrics-server"
   version     = "3.12.0"
@@ -13,7 +13,6 @@ resource "helm_release" "metrics-server" {
       ]
       tolerations = [
         {
-          key      = "node-role.kubernetes.io/control-plane"
           operator = "Exists"
         }
       ]

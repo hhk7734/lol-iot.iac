@@ -1,4 +1,4 @@
-resource "kubernetes_manifest" "cilium-l2-announcement-policy" {
+resource "kubernetes_manifest" "ciliuml2announcementpolicy" {
   manifest = {
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumL2AnnouncementPolicy"
@@ -12,7 +12,7 @@ resource "kubernetes_manifest" "cilium-l2-announcement-policy" {
   }
 }
 
-resource "kubernetes_manifest" "cilium-loadbalancer-ip-pool" {
+resource "kubernetes_manifest" "ciliumloadbalancerippool" {
   manifest = {
     apiVersion = "cilium.io/v2alpha1"
     kind       = "CiliumLoadBalancerIPPool"

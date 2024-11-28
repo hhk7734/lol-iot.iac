@@ -6,7 +6,6 @@ include "kubernetes" {
   path = find_in_parent_folders("kubernetes.hcl")
 }
 
-
 locals {
   k8s_dir = get_parent_terragrunt_dir("kubernetes")
 }
