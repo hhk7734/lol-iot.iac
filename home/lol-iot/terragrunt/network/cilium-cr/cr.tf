@@ -22,7 +22,7 @@ resource "kubernetes_manifest" "cilium-loadbalancer-ip-pool" {
     spec = {
       cidrs = [
         {
-          cidr = "192.168.0.208/28" # 192.168.0.208 ~ 192.168.0.223
+          cidr = "192.168.0.2/32" # 192.168.0.2
         },
         {
           cidr = "192.168.0.224/28" # 192.168.0.224 ~ 192.168.0.239

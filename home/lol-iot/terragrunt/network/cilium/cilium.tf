@@ -37,5 +37,4 @@ resource "helm_release" "cilium" {
       }
     }
   )]
-  wait = true
 }
