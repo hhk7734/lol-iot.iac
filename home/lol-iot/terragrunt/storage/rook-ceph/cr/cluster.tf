@@ -85,7 +85,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "1Gi"
           }
           requests = {
-            cpu    = "500m"
             memory = "100Mi"
           }
         }
@@ -94,7 +93,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "60Mi"
           }
           requests = {
-            cpu    = "100m"
             memory = "60Mi"
           }
         }
@@ -103,7 +101,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "128Mi"
           }
           requests = {
-            cpu    = "50m"
             memory = "50Mi"
           }
         }
@@ -112,7 +109,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "1Gi"
           }
           requests = {
-            cpu    = "100m"
             memory = "100Mi"
           }
         }
@@ -121,7 +117,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "1Gi"
           }
           requests = {
-            cpu    = "500m"
             memory = "512Mi"
           }
         }
@@ -130,7 +125,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "100Mi"
           }
           requests = {
-            cpu    = "100m"
             memory = "40Mi"
           }
         }
@@ -139,7 +133,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "2Gi"
           }
           requests = {
-            cpu    = "1"
             memory = "1Gi"
           }
         }
@@ -148,13 +141,11 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "4Gi"
           }
           requests = {
-            cpu    = "1"
             memory = "4Gi"
           }
         }
         prepareosd = {
           requests = {
-            cpu    = "500m"
             memory = "50Mi"
           }
         }
@@ -194,5 +185,9 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
 
   field_manager {
     force_conflicts = true
+  }
+
+  lifecycle {
+    prevent_destroy = true
   }
 }
