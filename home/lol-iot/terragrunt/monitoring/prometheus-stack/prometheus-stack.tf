@@ -30,7 +30,19 @@ resource "helm_release" "prometheus_stack" {
     kubeScheduler             = { enabled = false }
     kubeProxy                 = { enabled = false }
     kubeStateMetrics          = { enabled = false }
-    nodeExporter              = { enabled = false }
+    nodeExporter              = { enabled = true }
+    prometheus-node-exporter = {
+      fullnameOverride = "node-exporter"
+      prometheus = {
+        monitor = {
+          enabled  = true
+          jobLabel = "jobLabel"
+        }
+      }
+      podLabels = {
+        jobLabel = "node-exporter"
+      }
+    }
     prometheusOperator = {
       enabled = true
       tls = {
