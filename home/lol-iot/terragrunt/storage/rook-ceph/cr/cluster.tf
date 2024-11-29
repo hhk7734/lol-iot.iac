@@ -23,7 +23,9 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
         }
       }
       dashboard = {
-        enabled = true
+        enabled                     = true
+        prometheusEndpoint          = "http://prometheus-operated:9090"
+        prometheusEndpointSSLVerify = false
       }
       dataDirHostPath = "/var/lib/rook"
       disruptionManagement = {
@@ -51,6 +53,16 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
       }
       mgr = {
         count = 2
+        modules = [
+          {
+            name    = "rook"
+            enabled = true
+          },
+          {
+            name    = "prometheus"
+            enabled = true
+          }
+        ]
       }
       mon = {
         count = 3
