@@ -35,7 +35,10 @@ resource "helm_release" "prometheus_stack" {
       fullnameOverride = "node-exporter"
       prometheus = {
         monitor = {
-          enabled  = true
+          enabled = true
+          additionalLabels = {
+            "loliot.net/prometheus" = "prometheus"
+          }
           jobLabel = "jobLabel"
         }
       }

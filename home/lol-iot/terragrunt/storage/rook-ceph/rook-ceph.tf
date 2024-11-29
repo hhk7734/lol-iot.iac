@@ -63,6 +63,18 @@ resource "helm_release" "rook_ceph" {
             - name : liveness-prometheus
               resource: null
           EOT
+        pluginTolerations = [
+          {
+            key      = "node-role.kubernetes.io/control-plane"
+            operator = "Exists"
+          },
+          {
+            key      = "loliot.net/storage"
+            operator = "Equal"
+            value    = "enabled"
+            effect   = "NoSchedule"
+          }
+        ]
         provisionerTolerations = [
           {
             key      = "node-role.kubernetes.io/control-plane"

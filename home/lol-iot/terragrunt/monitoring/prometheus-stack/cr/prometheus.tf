@@ -1,7 +1,7 @@
 resource "kubernetes_service_account" "prometheus" {
   metadata {
     name      = "prometheus"
-    namespace = "monitoring"
+    namespace = var.prometheus_stack_namespace
   }
 }
 
@@ -46,13 +46,13 @@ resource "kubernetes_cluster_role_binding" "prometheus" {
   }
 }
 
-resource "kubernetes_manifest" "prometheus" {
+resource "kubernetes_manifest" "prometheus_prometheus" {
   manifest = {
     apiVersion = "monitoring.coreos.com/v1"
     kind       = "Prometheus"
     metadata = {
       name      = "prometheus"
-      namespace = "monitoring"
+      namespace = var.prometheus_stack_namespace
     }
     spec = {
       serviceAccountName = kubernetes_service_account.prometheus.metadata[0].name
@@ -82,9 +82,22 @@ resource "kubernetes_manifest" "prometheus" {
           }
         }
       }
+      tolerations = [
+        {
+          key      = "node-role.kubernetes.io/control-plane"
+          operator = "Exists"
+        },
+        {
+          key      = "loliot.net/storage"
+          operator = "Equal"
+          value    = "enabled"
+          effect   = "NoSchedule"
+        }
+      ]
+      serviceMonitorNamespaceSelector = {}
       serviceMonitorSelector = {
         matchLabels = {
-          "loliot.net/prometheus" = "monitoring"
+          "loliot.net/prometheus" = "prometheus"
         }
       }
     }
