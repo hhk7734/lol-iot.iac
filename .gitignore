@@ -160,5 +160,6 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/vim,linux,macos,windows,terraform,terragrunt,visualstudiocode
 
 vault_password
+private.pem
 credentials/
 artifacts/
