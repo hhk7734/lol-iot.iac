@@ -9,14 +9,14 @@ resource "kubernetes_manifest" "cephfilesystem_ceph_filesystem" {
     spec = {
       metadataPool = {
         replicated = {
-          size = 3
+          size = 2
         }
       }
       dataPools = [
         {
           name = "replicated"
           replicated = {
-            size = 3
+            size = 2
           }
         }
       ]
@@ -39,6 +39,10 @@ resource "kubernetes_manifest" "cephfilesystem_ceph_filesystem" {
         }
       }
     }
+  }
+
+  field_manager {
+    force_conflicts = true
   }
 }
 
