@@ -1,14 +1,14 @@
-resource "kubernetes_manifest" "loki-bucket" {
+resource "kubernetes_manifest" "objectbucketclaim_loki" {
   manifest = {
     apiVersion = "objectbucket.io/v1alpha1"
     kind       = "ObjectBucketClaim"
     metadata = {
-      name      = "loki-bucket"
-      namespace = var.monitoring_namespace
+      name      = "loki"
+      namespace = kubernetes_namespace.loki.metadata[0].name
     }
     spec = {
       bucketName       = "loki"
-      storageClassName = "ceph-bucket"
+      storageClassName = "object-store"
     }
   }
   wait {

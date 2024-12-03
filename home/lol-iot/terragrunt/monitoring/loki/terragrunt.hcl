@@ -1,22 +1,18 @@
-include "root" {
-  path = find_in_parent_folders("root.hcl")
+include "base" {
+  path = find_in_parent_folders("base.hcl")
+}
+
+include "kubernetes" {
+  path = find_in_parent_folders("kubernetes.hcl")
 }
 
 locals {
-  root_dir = get_parent_terragrunt_dir("root")
+  k8s_dir = get_parent_terragrunt_dir("kubernetes")
 }
 
 dependencies {
   paths = [
-    "${local.root_dir}/network/cilium",
-    "${local.root_dir}/storage/rook-ceph",
+    "${local.k8s_dir}/network/cilium",
+    "${local.k8s_dir}/storage/rook-ceph/cr"
   ]
-}
-
-dependency "monitoring_namespace" {
-  config_path = "${local.root_dir}/monitoring/namespace"
-}
-
-inputs = {
-  monitoring_namespace = dependency.monitoring_namespace.outputs.namespace
 }
