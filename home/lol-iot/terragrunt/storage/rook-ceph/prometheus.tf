@@ -91,7 +91,7 @@ resource "kubernetes_manifest" "prometheus_prometheus" {
                   {
                     key      = "kubernetes.io/hostname"
                     operator = "In"
-                    values   = ["ip-192-168-0-19"]
+                    values   = ["ip-192-168-0-22"]
                   }
                 ]
               }
@@ -99,18 +99,6 @@ resource "kubernetes_manifest" "prometheus_prometheus" {
           }
         }
       }
-      tolerations = [
-        {
-          key      = "node-role.kubernetes.io/control-plane"
-          operator = "Exists"
-        },
-        {
-          key      = "loliot.net/storage"
-          operator = "Equal"
-          value    = "enabled"
-          effect   = "NoSchedule"
-        }
-      ]
       serviceMonitorSelector = {
         matchLabels = {
           "loliot.net/prometheus" = "rook-ceph"
