@@ -74,6 +74,7 @@ k8s_cluster:
   vars:
     kube_owner: root
     kube_network_plugin: cni
+    kube_proxy_remove: true
     supplementary_addresses_in_ssl_keys:
       - 192.168.0.2
       - 192.168.11.240
