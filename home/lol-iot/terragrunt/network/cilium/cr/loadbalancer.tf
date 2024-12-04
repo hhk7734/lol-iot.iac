@@ -6,7 +6,6 @@ resource "kubernetes_manifest" "ciliuml2announcementpolicy" {
       name = "cilium-l2-announcement-policy"
     }
     spec = {
-      externalIPs     = true
       loadBalancerIPs = true
     }
   }
@@ -22,10 +21,7 @@ resource "kubernetes_manifest" "ciliumloadbalancerippool" {
     spec = {
       cidrs = [
         {
-          cidr = "192.168.0.2/32" # 192.168.0.2
-        },
-        {
-          cidr = "192.168.0.224/28" # 192.168.0.224 ~ 192.168.0.239
+          cidr = "192.168.0.2/32"
         }
       ]
     }
