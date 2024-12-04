@@ -19,7 +19,7 @@ resource "kubernetes_manifest" "ciliumloadbalancerippool" {
       name = "cilium-loadbalancer-ip-pool"
     }
     spec = {
-      cidrs = [
+      blocks = [
         {
           cidr = "192.168.0.2/32"
         }
