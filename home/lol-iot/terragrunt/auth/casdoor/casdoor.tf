@@ -22,3 +22,34 @@ resource "helm_release" "casdoor" {
     }
   })]
 }
+
+resource "kubernetes_manifest" "httproute_casdoor" {
+  manifest = {
+    apiVersion = "gateway.networking.k8s.io/v1"
+    kind       = "HTTPRoute"
+    metadata = {
+      name      = "casdoor"
+      namespace = kubernetes_namespace.casdoor.metadata[0].name
+    }
+    spec = {
+      parentRefs = [{
+        name      = "gateway"
+        namespace = "kube-system"
+      }]
+      hostnames = ["casdoor.lol-iot.loliot.net"]
+      rules = [{
+        matches = [{
+          path = {
+            type  = "PathPrefix"
+            value = "/"
+          }
+        }]
+        backendRefs = [{
+          name = "casdoor"
+          port = 8000
+        }]
+      }]
+    }
+  }
+
+}

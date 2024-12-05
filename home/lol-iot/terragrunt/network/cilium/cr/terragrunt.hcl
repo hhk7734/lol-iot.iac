@@ -11,7 +11,10 @@ locals {
 }
 
 dependencies {
-  paths = ["${local.k8s_dir}/network/cilium"]
+  paths = [
+    "${local.k8s_dir}/network/cilium",
+    "${local.k8s_dir}/auth/cert-manager"
+  ]
 }
 
 retryable_errors = [

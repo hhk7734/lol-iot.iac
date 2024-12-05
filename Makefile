@@ -19,7 +19,11 @@ help: ## Display this help.
 			printf "\nUsage:\n  make \033[36m<target>\033[0m\n" \
 		} \
 		/^[a-zA-Z_0-9-]+:.*?##/ { \
-			printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 \
+			target = $$1; \
+			help_msg = $$2; \
+			gsub(/`[^`]+`/, "\033[32m&\033[0m", help_msg); \
+			gsub(/`/, "", help_msg); \
+			printf "  \033[36m%-15s\033[0m %s\n", target, help_msg \
 		} \
 		/^##@/ { \
 			printf "\n\033[1m%s\033[0m\n", substr($$0, 5) \
@@ -28,18 +32,12 @@ help: ## Display this help.
 
 ##@ Development
 
-.PHONY: remove-local-branch
-remove-local-branch: ## Update remote branches and remove local branches.
-	git remote update --prune
-	git switch --detach origin/HEAD
-	@git for-each-ref --format '%(refname:short)' refs/heads | xargs -r -t git branch -D
-
 .PHONY: backup-secret
 backup-secret: ## Backup local secret files.
 	tar -czvf `date "+%Y-%m-%d-%H"`_local_secret.tar.gz local_secret
 
 .PHONY: encrypt
-encrypt: ## Encrypt secret for terraform. Usage: make encrypt secret=value
+encrypt: ## Encrypt secret for terraform. Usage: `make encrypt secret=<value>`
 	@printf "$(secret)" \
 		| openssl pkeyutl -encrypt -pubin -inkey public.pem \
 		| base64 \
@@ -47,7 +45,7 @@ encrypt: ## Encrypt secret for terraform. Usage: make encrypt secret=value
 		| xargs -0 echo
 
 .PHONY: decrypt
-decrypt: ## Decrypt secret for terraform. Usage: make decrypt secret=encrypted-secret
+decrypt: ## Decrypt secret for terraform. Usage: `make decrypt secret=<encryptedSecret>`
 	@printf "$(secret)" \
 		| base64 -d \
 		| openssl pkeyutl -decrypt -inkey private.pem \

@@ -13,6 +13,7 @@ locals {
 dependencies {
   paths = [
     "${local.k8s_dir}/network/cilium",
+    "${local.k8s_dir}/network/cilium/cr",
     "${local.k8s_dir}/storage/postgres"
   ]
 }
