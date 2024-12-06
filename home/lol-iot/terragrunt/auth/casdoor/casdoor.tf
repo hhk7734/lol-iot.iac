@@ -51,5 +51,4 @@ resource "kubernetes_manifest" "httproute_casdoor" {
       }]
     }
   }
-
 }

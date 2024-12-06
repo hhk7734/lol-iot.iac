@@ -3,6 +3,17 @@ resource "kubernetes_namespace" "grafana" {
     name = "grafana"
   }
 }
+
+resource "kubernetes_secret_v1" "grafana_env" {
+  metadata {
+    name      = "grafana-env"
+    namespace = kubernetes_namespace.grafana.metadata[0].name
+  }
+  data = {
+    OIDC_CLIENT_SECRET = rsadecrypt("zE6aDygn46Fo6P1ax1F6cE6VkYr7Dn4Ltr1KgUAjQB7k4iO/VfMfannZM5K+udF7QHtAJQ8znAfYMFepUGmtwIAyJiokgZQHUMeBHXG9FwR37dmlah6iFclNpGhcXwAxJrDB7Hp7Vphaa4kRtscphkm5o0ejaUUlDaPexil9TlYJcXmsyLA/wDvaeMyw/BLvKIPxiJ9VouSiwpJCG5230bODEppdmJ0zFJAE+rDeHje5tE4aVM0Eys2kdaALyFXFNqPHovcJEfV5l6Dk6dPrtg3HhSO4BcEcsNO1ZhzyMb2VCxNQQR8l31we20kL8OgSDJVqka8jnQnh+Gwk7mWj+C/IBykwKMI2pD9KSEUDGz0YKgHLxZjDtrrJNAcUkKlcH/C4FYeOa1twtzjxv7YnjOLyGzB2LqpqJx0LaWMtSO+1cXJqvb59ELaRvho5P1X9j3aPXGBpcn+XH0U/hnA428P3lUjjQUo1iSPpkhBMOzsUL23hfCn4FR5YwQnAcb9aKE2iy+46X0iO13KGxCPZxP5KrSI0fmj23/NmsdBCaiF+GKiyK17PsUQnXT8/dkABB1Kx0BQmGQhGw+bDPU0RCqK3+aoziv4krCc0kBT/kOgjjpVYH1eoWVoNpvWeTe5X/1nELlNQl3SE3pBqw7SGrHtXKRXgzmJEQjikVNZ8IOA=", local.private_pem)
+  }
+}
+
 resource "helm_release" "grafana" {
   repository  = "https://hhk7734.github.io/helm-charts/"
   chart       = "grafana"
@@ -75,5 +86,55 @@ resource "helm_release" "grafana" {
         }
       }
     }
+    envFromSecret = kubernetes_secret_v1.grafana_env.metadata[0].name
+    "grafana.ini" = {
+      server = {
+        root_url = "https://grafana.lol-iot.loliot.net"
+      }
+      "auth.generic_oauth" = {
+        enabled             = true
+        name                = "Casdoor"
+        client_id           = "f33f76797b6a86b07ae5"
+        client_secret       = "$${OIDC_CLIENT_SECRET}"
+        scopes              = "openid profile email groups"
+        auth_url            = "https://casdoor.lol-iot.loliot.net/login/oauth/authorize"
+        token_url           = "https://casdoor.lol-iot.loliot.net/api/login/oauth/access_token"
+        api_url             = "https://casdoor.lol-iot.loliot.net/api/userinfo"
+        role_attribute_path = "contains(groups[*], 'lol-iot/devops') && 'GrafanaAdmin' || 'Viewer'"
+        allow_sign_up       = true
+        auto_login          = true
+        use_refresh_token   = true
+      }
+    }
   })]
+}
+
+resource "kubernetes_manifest" "httproute_grafana" {
+  manifest = {
+    apiVersion = "gateway.networking.k8s.io/v1"
+    kind       = "HTTPRoute"
+    metadata = {
+      name      = "grafana"
+      namespace = kubernetes_namespace.grafana.metadata[0].name
+    }
+    spec = {
+      parentRefs = [{
+        name      = "gateway"
+        namespace = "kube-system"
+      }]
+      hostnames = ["grafana.lol-iot.loliot.net"]
+      rules = [{
+        matches = [{
+          path = {
+            type  = "PathPrefix"
+            value = "/"
+          }
+        }]
+        backendRefs = [{
+          name = "grafana"
+          port = 80
+        }]
+      }]
+    }
+  }
 }
