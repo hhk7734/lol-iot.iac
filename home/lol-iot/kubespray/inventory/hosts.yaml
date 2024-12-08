@@ -89,6 +89,11 @@ k8s_cluster:
         operator: Equal
         value: enabled
         effect: NoSchedule
+    kube_oidc_auth: true
+    kube_oidc_url: https://casdoor.lol-iot.loliot.net
+    kube_oidc_client_id: 844827c30591e453965d
+    kube_oidc_username_claim: email
+    kube_oidc_groups_claim: groups
   children:
     kube_control_plane:
     kube_node:

@@ -37,16 +37,16 @@ backup-secret: ## Backup local secret files.
 	tar -czvf `date "+%Y-%m-%d-%H"`_local_secret.tar.gz local_secret
 
 .PHONY: encrypt
-encrypt: ## Encrypt secret for terraform. Usage: `make encrypt secret=<value>`
-	@printf "$(secret)" \
+encrypt: ## Encrypt a secret for terraform. Escape $ with $$ in the secret. Usage: `make encrypt secret='<value>'`
+	@printf '$(secret)' \
 		| openssl pkeyutl -encrypt -pubin -inkey public.pem \
 		| base64 \
 		| tr -d '\n'\
 		| xargs -0 echo
 
 .PHONY: decrypt
-decrypt: ## Decrypt secret for terraform. Usage: `make decrypt secret=<encryptedSecret>`
-	@printf "$(secret)" \
+decrypt: ## Decrypt a secret for terraform. Usage: `make decrypt secret='<encryptedSecret>'`
+	@printf '$(secret)' \
 		| base64 -d \
 		| openssl pkeyutl -decrypt -inkey private.pem \
 		| xargs -0 echo
