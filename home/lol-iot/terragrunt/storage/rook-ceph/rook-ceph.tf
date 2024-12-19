@@ -40,7 +40,28 @@ resource "helm_release" "rook_ceph" {
         enableOBCs = true
       }
       csi = {
-        enableRbdDriver              = false
+        csiRBDProvisionerResource    = <<-EOT
+            - name : csi-provisioner
+              resource: null
+            - name : csi-resizer
+              resource: null
+            - name : csi-attacher
+              resource: null
+            - name : csi-snapshotter
+              resource: null
+            - name : csi-rbdplugin
+              resource: null
+            - name : liveness-prometheus
+              resource: null
+          EOT
+        csiRBDPluginResource         = <<-EOT
+            - name : driver-registrar
+              resource: null
+            - name : csi-rbdplugin
+              resource: null
+            - name : liveness-prometheus
+              resource: null
+          EOT
         csiCephFSProvisionerResource = <<-EOT
             - name : csi-provisioner
               resource: null
