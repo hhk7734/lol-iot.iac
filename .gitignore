@@ -163,3 +163,4 @@ vault_password
 private.pem
 credentials/
 artifacts/
+*secret.tar.gz
