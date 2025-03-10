@@ -20,6 +20,14 @@ resource "kubernetes_manifest" "cephobjectstore_object_store" {
       gateway = {
         port      = 80
         instances = 1
+        resources = {
+          requests = {
+            memory = "1Gi"
+          }
+          limits = {
+            memory = "1536Mi"
+          }
+        }
         placement = {
           tolerations = [
             {
