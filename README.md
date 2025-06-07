@@ -9,7 +9,8 @@
 ## Terragrunt
 
 ```shell
-terragrunt graph-dependencies | dot -Tsvg > graph.svg
+cd home/lol-iot/terragrunt \
+&& terragrunt dag graph | dot -Tsvg -Nshape=rect -Gsplines=ortho > graph.svg
 ```
 
 ![Dependencies](assets/home/lol-iot/terragrunt/graph.svg)
