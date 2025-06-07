@@ -1,7 +1,7 @@
 remote_state {
   backend = "local"
   generate = {
-    path      = "backend.tf"
+    path      = "gen-backend.tf"
     if_exists = "overwrite_terragrunt"
   }
   config = {
@@ -10,7 +10,7 @@ remote_state {
 }
 
 generate "base" {
-  path = "base.tf"
+  path = "gen-base.tf"
   if_exists = "overwrite_terragrunt"
   contents = <<-EOF
     variable "private_pem_path" {

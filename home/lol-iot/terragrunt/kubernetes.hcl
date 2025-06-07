@@ -7,9 +7,9 @@ locals {
 }
 
 generate "kubernetes" {
-  path = "kubernetes.tf"
+  path      = "gen-kubernetes.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<-EOF
+  contents  = <<-EOF
     provider "kubernetes" {
       config_paths   = ${local.kube_config_paths}
       config_context = "${local.kube_config_context}"
