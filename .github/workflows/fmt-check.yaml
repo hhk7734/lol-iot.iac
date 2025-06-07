@@ -1,0 +1,34 @@
+name: Terraform and Terragrunt Format Check
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "**.tf"
+      - "**.hcl"
+
+jobs:
+  fmt-check:
+    runs-on: ubuntu-latest
+    name: Check formatting of terraform/terragrunt files
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: asdf-vm/actions/setup@v4
+
+      - name: Set up terraform
+        run: |
+          asdf plugin add terraform
+          asdf install terraform
+
+      - name: Set up terragrunt
+        run: |
+          asdf plugin add terragrunt
+          asdf install terragrunt
+
+      - name: Check Terraform format
+        run: terraform fmt -check -recursive -diff
+
+      - name: Check Terragrunt HCL format
+        run: terragrunt hcl fmt --check --diff

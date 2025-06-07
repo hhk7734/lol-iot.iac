@@ -10,9 +10,9 @@ remote_state {
 }
 
 generate "base" {
-  path = "gen-base.tf"
+  path      = "gen-base.tf"
   if_exists = "overwrite_terragrunt"
-  contents = <<-EOF
+  contents  = <<-EOF
     variable "private_pem_path" {
       type    = string
       default = "${get_path_to_repo_root()}/private.pem"
