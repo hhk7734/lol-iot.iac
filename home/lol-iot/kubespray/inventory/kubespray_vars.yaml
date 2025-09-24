@@ -1,0 +1,26 @@
+###############################
+# k8s_cluster/k8s-cluster.yml #
+###############################
+retry_stagger: 10
+kube_owner: root
+
+kubeconfig_localhost: true
+kubectl_localhost: true
+
+supplementary_addresses_in_ssl_keys: []
+
+kube_network_plugin: cni
+kube_proxy_remove: true
+
+auto_renew_certificates: true
+auto_renew_certificates_systemd_calendar: "*-01,07-01 03:{{ groups['kube_control_plane'].index(inventory_hostname) }}0:00"
+
+#######
+# etc #
+#######
+download_run_once: true
+
+dns_extra_tolerations: [{ operator: "Exists" }]
+dns_autoscaler_extra_tolerations: [{ operator: "Exists" }]
+
+kube_proxy_metrics_bind_address: 0.0.0.0:10249

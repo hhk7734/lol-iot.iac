@@ -1,0 +1,10 @@
+- name: Allow rsync
+  hosts: all
+  gather_facts: false
+  tags: always
+  tasks:
+    - name: Allow rsync
+      community.general.sudoers:
+        name: allow-rsync
+        user: "{{ ansible_user }}"
+        commands: /usr/bin/rsync
