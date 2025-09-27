@@ -27,16 +27,18 @@ resource "kubernetes_storage_class_v1" "ceph_block" {
   reclaim_policy         = "Delete"
   allow_volume_expansion = true
   parameters = {
-    clusterID                                               = var.rook_ceph_namespace
-    pool                                                    = kubernetes_manifest.cephblockpool_ceph_block.manifest.metadata.name
-    imageFormat                                             = "2"
-    imageFeatures                                           = "layering"
-    "csi.storage.k8s.io/provisioner-secret-name"            = "rook-csi-rbd-provisioner"
-    "csi.storage.k8s.io/provisioner-secret-namespace"       = var.rook_ceph_namespace
-    "csi.storage.k8s.io/controller-expand-secret-name"      = "rook-csi-rbd-provisioner"
-    "csi.storage.k8s.io/controller-expand-secret-namespace" = var.rook_ceph_namespace
-    "csi.storage.k8s.io/node-stage-secret-name"             = "rook-csi-rbd-node"
-    "csi.storage.k8s.io/node-stage-secret-namespace"        = var.rook_ceph_namespace
-    "csi.storage.k8s.io/fstype"                             = "ext4"
+    clusterID                                                = var.rook_ceph_namespace
+    pool                                                     = kubernetes_manifest.cephblockpool_ceph_block.manifest.metadata.name
+    imageFormat                                              = "2"
+    imageFeatures                                            = "layering"
+    "csi.storage.k8s.io/fstype"                              = "ext4"
+    "csi.storage.k8s.io/provisioner-secret-name"             = "rook-csi-rbd-provisioner"
+    "csi.storage.k8s.io/provisioner-secret-namespace"        = var.rook_ceph_namespace
+    "csi.storage.k8s.io/controller-expand-secret-name"       = "rook-csi-rbd-provisioner"
+    "csi.storage.k8s.io/controller-expand-secret-namespace"  = var.rook_ceph_namespace
+    "csi.storage.k8s.io/controller-publish-secret-name"      = "rook-csi-rbd-provisioner"
+    "csi.storage.k8s.io/controller-publish-secret-namespace" = var.rook_ceph_namespace
+    "csi.storage.k8s.io/node-stage-secret-name"              = "rook-csi-rbd-node"
+    "csi.storage.k8s.io/node-stage-secret-namespace"         = var.rook_ceph_namespace
   }
 }

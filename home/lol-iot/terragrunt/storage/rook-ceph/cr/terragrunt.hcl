@@ -10,12 +10,6 @@ locals {
   k8s_dir = get_parent_terragrunt_dir("kubernetes")
 }
 
-dependencies {
-  paths = [
-    "${local.k8s_dir}/network/cilium/cr",
-  ]
-}
-
 dependency "rook_ceph" {
   config_path = "${local.k8s_dir}/storage/rook-ceph"
 }

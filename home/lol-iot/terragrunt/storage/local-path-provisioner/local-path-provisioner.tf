@@ -1,7 +1,7 @@
 resource "helm_release" "local_path_provisioner" {
-  repository  = "https://hhk7734.github.io/helm-charts/"
+  repository  = "https://lol-iot.github.io/helm-charts"
   chart       = "local-path-provisioner"
-  version     = "0.0.30"
+  version     = "0.0.32"
   max_history = 5
   name        = "local-path-provisioner"
   namespace   = "kube-system"

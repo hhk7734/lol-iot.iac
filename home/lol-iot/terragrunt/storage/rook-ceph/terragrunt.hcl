@@ -13,7 +13,6 @@ locals {
 dependencies {
   paths = [
     "${local.k8s_dir}/network/cilium",
-    "${local.k8s_dir}/storage/local-path-provisioner",
-    "${local.k8s_dir}/monitoring/prometheus-stack"
+    "${local.k8s_dir}/monitoring/prometheus-stack",
   ]
 }

@@ -18,59 +18,8 @@ resource "kubernetes_manifest" "gateway" {
               from = "All"
             }
           }
-        },
-        {
-          name     = "https"
-          protocol = "HTTPS"
-          hostname = "*.lol-iot.loliot.net"
-          port     = 443
-          tls = {
-            mode = "Terminate"
-            certificateRefs = [{
-              name = kubernetes_manifest.certificate_lol_iot.manifest.spec.secretName
-            }]
-          }
-        },
-        {
-          name     = "kube-apiserver"
-          protocol = "TLS"
-          hostname = "lol-iot.loliot.net"
-          port     = 443
-          tls = {
-            mode = "Passthrough"
-          }
-          allowedRoutes = {
-            namespaces = {
-              from = "All"
-            }
-          }
         }
       ]
-    }
-  }
-}
-
-resource "kubernetes_manifest" "tlsroute_kube_apiserver" {
-  manifest = {
-    apiVersion = "gateway.networking.k8s.io/v1alpha2"
-    kind       = "TLSRoute"
-    metadata = {
-      name      = "kube-apiserver"
-      namespace = "default"
-    }
-    spec = {
-      parentRefs = [{
-        name        = kubernetes_manifest.gateway.manifest.metadata.name
-        namespace   = kubernetes_manifest.gateway.manifest.metadata.namespace
-        sectionName = "kube-apiserver"
-      }]
-      hostnames : ["lol-iot.loliot.net"]
-      rules = [{
-        backendRefs = [{
-          name = "kubernetes"
-          port = 443
-        }]
-      }]
     }
   }
 }

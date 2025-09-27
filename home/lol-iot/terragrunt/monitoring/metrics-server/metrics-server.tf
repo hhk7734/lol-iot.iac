@@ -1,7 +1,7 @@
 resource "helm_release" "metrics_server" {
-  repository  = "https://hhk7734.github.io/helm-charts/"
+  repository  = "https://kubernetes-sigs.github.io/metrics-server/"
   chart       = "metrics-server"
-  version     = "3.12.0"
+  version     = "3.12.2"
   max_history = 5
   name        = "metrics-server"
   namespace   = "kube-system"
@@ -11,11 +11,7 @@ resource "helm_release" "metrics_server" {
       args = [
         "--kubelet-insecure-tls"
       ]
-      tolerations = [
-        {
-          operator = "Exists"
-        }
-      ]
+      tolerations = [{ operator = "Exists" }]
     }
   )]
   wait = true

@@ -21,7 +21,8 @@ resource "kubernetes_manifest" "ciliumloadbalancerippool" {
     spec = {
       blocks = [
         {
-          cidr = "192.168.0.2/32"
+          start = "172.31.254.210"
+          end   = "172.31.254.250"
         }
       ]
     }

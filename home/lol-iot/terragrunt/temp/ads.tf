@@ -14,7 +14,7 @@ resource "kubernetes_config_map_v1" "ads_txt" {
   }
 }
 
-resource "kubernetes_pod_v1" "ads_txt" {
+resource "kubernetes_deployment_v1" "ads_txt" {
   metadata {
     name      = "ads-txt"
     namespace = kubernetes_namespace_v1.temp.metadata[0].name
@@ -23,18 +23,37 @@ resource "kubernetes_pod_v1" "ads_txt" {
     }
   }
   spec {
-    container {
-      name  = "ads-txt"
-      image = "nginx:alpine"
-      volume_mount {
-        name       = "ads-txt"
-        mount_path = "/usr/share/nginx/html"
+    replicas = 1
+    selector {
+      match_labels = {
+        app = "ads-txt"
       }
     }
-    volume {
-      name = "ads-txt"
-      config_map {
-        name = kubernetes_config_map_v1.ads_txt.metadata[0].name
+    template {
+      metadata {
+        labels = {
+          app = "ads-txt"
+        }
+      }
+      spec {
+        container {
+          name  = "ads-txt"
+          image = "nginx:alpine"
+          port {
+            name           = "http"
+            container_port = 80
+          }
+          volume_mount {
+            name       = "ads-txt"
+            mount_path = "/usr/share/nginx/html"
+          }
+        }
+        volume {
+          name = "ads-txt"
+          config_map {
+            name = kubernetes_config_map_v1.ads_txt.metadata[0].name
+          }
+        }
       }
     }
   }
@@ -47,11 +66,11 @@ resource "kubernetes_service_v1" "ads_txt" {
   }
   spec {
     selector = {
-      app = kubernetes_pod_v1.ads_txt.metadata[0].labels.app
+      app = "ads-txt"
     }
     port {
       port        = 80
-      target_port = 80
+      target_port = "http"
     }
   }
 }

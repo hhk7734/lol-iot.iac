@@ -8,18 +8,12 @@ resource "kubernetes_manifest" "cephfilesystem_ceph_filesystem" {
     }
     spec = {
       metadataPool = {
-        replicated = {
-          size = 2
-        }
+        replicated = { size = 2 }
       }
-      dataPools = [
-        {
-          name = "replicated"
-          replicated = {
-            size = 2
-          }
-        }
-      ]
+      dataPools = [{
+        name       = "data0"
+        replicated = { size = 2 }
+      }]
       metadataServer = {
         activeCount   = 1
         activeStandby = true
@@ -57,9 +51,7 @@ resource "kubernetes_manifest" "cephfilesystemsubvolumegroup_ceph_filesystem" {
     spec = {
       name           = "csi"
       filesystemName = kubernetes_manifest.cephfilesystem_ceph_filesystem.manifest.metadata.name
-      pinning = {
-        distributed = 1
-      }
+      pinning        = { distributed = 1 }
     }
   }
 }
@@ -81,6 +73,8 @@ resource "kubernetes_storage_class_v1" "ceph_filesystem" {
     "csi.storage.k8s.io/provisioner-secret-namespace" : var.rook_ceph_namespace
     "csi.storage.k8s.io/controller-expand-secret-name" : "rook-csi-cephfs-provisioner"
     "csi.storage.k8s.io/controller-expand-secret-namespace" : var.rook_ceph_namespace
+    "csi.storage.k8s.io/controller-publish-secret-name" : "rook-csi-cephfs-provisioner"
+    "csi.storage.k8s.io/controller-publish-secret-namespace" : var.rook_ceph_namespace
     "csi.storage.k8s.io/node-stage-secret-name" : "rook-csi-cephfs-node"
     "csi.storage.k8s.io/node-stage-secret-namespace" : var.rook_ceph_namespace
   }

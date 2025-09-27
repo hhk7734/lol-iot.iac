@@ -5,9 +5,9 @@ resource "kubernetes_namespace" "rook_ceph" {
 }
 
 resource "helm_release" "rook_ceph" {
-  repository  = "https://hhk7734.github.io/helm-charts/"
+  repository  = "https://charts.rook.io/release"
   chart       = "rook-ceph"
-  version     = "v1.15.6"
+  version     = "v1.18.2"
   max_history = 5
   name        = "rook-ceph"
   namespace   = kubernetes_namespace.rook_ceph.metadata[0].name
@@ -40,49 +40,54 @@ resource "helm_release" "rook_ceph" {
         enableOBCs = true
       }
       csi = {
-        csiRBDProvisionerResource    = <<-EOT
-            - name : csi-provisioner
-              resource: null
-            - name : csi-resizer
-              resource: null
-            - name : csi-attacher
-              resource: null
-            - name : csi-snapshotter
-              resource: null
-            - name : csi-rbdplugin
-              resource: null
-            - name : liveness-prometheus
-              resource: null
+        enableRbdDriver           = true
+        csiRBDProvisionerResource = <<-EOT
+          - name : csi-provisioner
+            resource: null
+          - name : csi-resizer
+            resource: null
+          - name : csi-attacher
+            resource: null
+          - name : csi-snapshotter
+            resource: null
+          - name : csi-rbdplugin
+            resource: null
+          - name : csi-omap-generator
+            resource: null
+          - name : liveness-prometheus
+            resource: null
           EOT
-        csiRBDPluginResource         = <<-EOT
-            - name : driver-registrar
-              resource: null
-            - name : csi-rbdplugin
-              resource: null
-            - name : liveness-prometheus
-              resource: null
+        csiRBDPluginResource      = <<-EOT
+          - name : driver-registrar
+            resource: null
+          - name : csi-rbdplugin
+            resource: null
+          - name : liveness-prometheus
+            resource: null
           EOT
+
+        enableCephfsDriver           = true
         csiCephFSProvisionerResource = <<-EOT
-            - name : csi-provisioner
-              resource: null
-            - name : csi-resizer
-              resource: null
-            - name : csi-attacher
-              resource: null
-            - name : csi-snapshotter
-              resource: null
-            - name : csi-cephfsplugin
-              resource: null
-            - name : liveness-prometheus
-              resource: null
+          - name : csi-provisioner
+            resource: null
+          - name : csi-resizer
+            resource: null
+          - name : csi-attacher
+            resource: null
+          - name : csi-snapshotter
+            resource: null
+          - name : csi-cephfsplugin
+            resource: null
+          - name : liveness-prometheus
+            resource: null
           EOT
         csiCephFSPluginResource      = <<-EOT
-            - name : driver-registrar
-              resource: null
-            - name : csi-cephfsplugin
-              resource: null
-            - name : liveness-prometheus
-              resource: null
+          - name : driver-registrar
+            resource: null
+          - name : csi-cephfsplugin
+            resource: null
+          - name : liveness-prometheus
+            resource: null
           EOT
         pluginTolerations = [
           {
@@ -97,22 +102,6 @@ resource "helm_release" "rook_ceph" {
           }
         ]
         provisionerTolerations = [
-          {
-            key      = "node-role.kubernetes.io/control-plane"
-            operator = "Exists"
-          },
-          {
-            key      = "loliot.net/storage"
-            operator = "Equal"
-            value    = "enabled"
-            effect   = "NoSchedule"
-          }
-        ]
-        kubeletDirPath = "/var/lib/kubelet"
-      }
-      enableDiscoveryDaemon = true
-      discover = {
-        tolerations = [
           {
             key      = "node-role.kubernetes.io/control-plane"
             operator = "Exists"

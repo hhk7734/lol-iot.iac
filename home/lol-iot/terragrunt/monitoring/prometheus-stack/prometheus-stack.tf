@@ -5,9 +5,9 @@ resource "kubernetes_namespace" "prometheus_stack" {
 }
 
 resource "helm_release" "prometheus_stack" {
-  repository  = "https://hhk7734.github.io/helm-charts/"
+  repository  = "https://prometheus-community.github.io/helm-charts"
   chart       = "kube-prometheus-stack"
-  version     = "66.3.0"
+  version     = "77.11.1"
   max_history = 5
   name        = "prometheus-stack"
   namespace   = kubernetes_namespace.prometheus_stack.metadata[0].name
@@ -30,22 +30,7 @@ resource "helm_release" "prometheus_stack" {
     kubeScheduler             = { enabled = false }
     kubeProxy                 = { enabled = false }
     kubeStateMetrics          = { enabled = false }
-    nodeExporter              = { enabled = true }
-    prometheus-node-exporter = {
-      fullnameOverride = "node-exporter"
-      prometheus = {
-        monitor = {
-          enabled = true
-          additionalLabels = {
-            "loliot.net/prometheus" = "prometheus"
-          }
-          jobLabel = "jobLabel"
-        }
-      }
-      podLabels = {
-        jobLabel = "node-exporter"
-      }
-    }
+    nodeExporter              = { enabled = false }
     prometheusOperator = {
       enabled = true
       tls = {

@@ -7,11 +7,8 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
       namespace = var.rook_ceph_namespace
     }
     spec = {
-      monitoring = {
-        enabled = false
-      }
       cephVersion = {
-        image = "quay.io/ceph/ceph:v18.2.4"
+        image = "quay.io/ceph/ceph:v19.2.3"
       }
       cleanupPolicy = {
         allowUninstallWithVolumes = false
@@ -23,9 +20,7 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
         }
       }
       dashboard = {
-        enabled                     = true
-        prometheusEndpoint          = "http://prometheus-operated:9090"
-        prometheusEndpointSSLVerify = false
+        enabled = true
       }
       dataDirHostPath = "/var/lib/rook"
       disruptionManagement = {
@@ -33,36 +28,11 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
         osdMaintenanceTimeout = 30
         pgHealthCheckTimeout  = 0
       }
-      healthCheck = {
-        daemonHealth = {
-          mon = {
-            interval = "45s"
-          }
-          osd = {
-            interval = "1m0s"
-          }
-          status = {
-            interval = "1m0s"
-          }
-        }
-      }
       logCollector = {
-        enabled     = true
-        maxLogSize  = "500M"
-        periodicity = "daily"
+        enabled = false
       }
       mgr = {
         count = 2
-        modules = [
-          {
-            name    = "rook"
-            enabled = true
-          },
-          {
-            name    = "prometheus"
-            enabled = true
-          }
-        ]
       }
       mon = {
         count = 3
@@ -116,14 +86,6 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "50Mi"
           }
         }
-        logcollector = {
-          limits = {
-            memory = "1Gi"
-          }
-          requests = {
-            memory = "100Mi"
-          }
-        }
         mgr = {
           limits = {
             memory = "1Gi"
@@ -132,7 +94,7 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
             memory = "512Mi"
           }
         }
-        mgr_sidecar = {
+        "mgr-sidecar" = {
           limits = {
             memory = "100Mi"
           }
@@ -167,30 +129,21 @@ resource "kubernetes_manifest" "cephcluster_rook_ceph" {
         useAllNodes   = false
         nodes = [
           {
-            name = "ip-192-168-0-19"
-            devices = [
-              {
-                name = "/dev/vg0/lvol0"
-              }
-            ]
+            name    = "ip-172-31-254-2"
+            devices = [{ name = "/dev/vg0/lvol0" }]
           },
           {
-            name = "ip-192-168-0-20"
-            devices = [
-              {
-                name = "/dev/vg0/lvol0"
-              }
-            ]
+            name    = "ip-172-31-254-3"
+            devices = [{ name = "/dev/vg0/lvol0" }]
           },
           {
-            name = "ip-192-168-0-21"
-            devices = [
-              {
-                name = "/dev/vg0/lvol0"
-              }
-            ]
+            name    = "ip-172-31-254-4"
+            devices = [{ name = "/dev/vg0/lvol0" }]
           }
         ]
+      }
+      monitoring = {
+        enabled = false
       }
     }
   }
