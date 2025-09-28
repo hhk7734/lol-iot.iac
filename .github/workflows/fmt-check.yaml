@@ -13,22 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     name: Check formatting of terraform/terragrunt files
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: asdf-vm/actions/setup@v4
-
-      - name: Set up terraform
-        run: |
-          asdf plugin add terraform
-          asdf install terraform
-
-      - name: Set up terragrunt
-        run: |
-          asdf plugin add terragrunt
-          asdf install terragrunt
+      - uses: actions/checkout@v5
+      - uses: jdx/mise-action@v3.2.0
 
       - name: Check Terraform format
-        run: terraform fmt -check -recursive -diff
+        run: |
+          mise run terraform-fmt
+          git diff --exit-code || (echo "::error::terraform-fmt made changes" && exit 1)
 
       - name: Check Terragrunt HCL format
-        run: terragrunt hcl fmt --check --diff
+        run: |
+          mise run terragrunt-fmt
+          git diff --exit-code || (echo "::error::terragrunt-fmt made changes" && exit 1)

@@ -1,3 +1,11 @@
 [tools]
 terraform = "1.13.3"
 terragrunt = "0.87.5"
+
+[tasks.terragrunt-fmt]
+description = "Format all Terragrunt files."
+run = "terragrunt hcl fmt"
+
+[tasks.terraform-fmt]
+description = "Format all Terraform files."
+run = "terraform fmt -recursive"

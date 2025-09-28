@@ -3,7 +3,7 @@ locals {
     "~/.kube/config",
     "~/.kube/lol-iot.yaml"
   ])
-  kube_config_context =        "home/lol-iot/admin"
+  kube_config_context = "home/lol-iot/admin"
 }
 
 generate "kubernetes" {
