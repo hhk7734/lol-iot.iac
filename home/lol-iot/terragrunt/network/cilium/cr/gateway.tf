@@ -18,7 +18,19 @@ resource "kubernetes_manifest" "gateway" {
               from = "All"
             }
           }
-        }
+        },
+        {
+          name     = "https"
+          protocol = "HTTPS"
+          hostname = "*.lol-iot.loliot.net"
+          port     = 443
+          tls = {
+            mode = "Terminate"
+            certificateRefs = [{
+              name = kubernetes_manifest.certificate_lol_iot.manifest.spec.secretName
+            }]
+          }
+        },
       ]
     }
   }
