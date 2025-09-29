@@ -29,6 +29,11 @@ resource "kubernetes_manifest" "gateway" {
             certificateRefs = [{
               name = kubernetes_manifest.certificate_lol_iot.manifest.spec.secretName
             }]
+          },
+          allowedRoutes = {
+            namespaces = {
+              from = "All"
+            }
           }
         },
       ]
