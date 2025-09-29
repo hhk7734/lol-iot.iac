@@ -4,38 +4,109 @@ resource "kubernetes_namespace" "postgres" {
   }
 }
 
-resource "helm_release" "postgres" {
-  repository  = "https://hhk7734.github.io/helm-charts/"
-  chart       = "postgresql"
-  version     = "16.2.3"
-  max_history = 3
-  name        = "postgres"
-  namespace   = kubernetes_namespace.postgres.metadata[0].name
-  timeout     = 300
-  values = [jsonencode({
-    fullnameOverride = "postgres"
-    global = {
-      storageClass = "ceph-filesystem"
+locals {
+  postgres_version = "17.6"
+}
+
+resource "kubernetes_service_v1" "postgres-hl" {
+  metadata {
+    name      = "postgres-hl"
+    namespace = kubernetes_namespace.postgres.metadata[0].name
+    labels = {
+      app                      = "postgres"
+      "app.kubernetes.io/name" = "postgres"
     }
-    auth = {
-      postgresPassword = "postgres"
+  }
+  spec {
+    type       = "ClusterIP"
+    cluster_ip = "None"
+    selector = {
+      app                      = "postgres"
+      "app.kubernetes.io/name" = "postgres"
     }
-    primary = {
-      tolerations = [
-        {
-          key      = "node-role.kubernetes.io/control-plane"
-          operator = "Exists"
-        },
-        {
-          key      = "loliot.net/storage"
-          operator = "Equal"
-          value    = "enabled"
-          effect   = "NoSchedule"
-        }
-      ]
-      persistence = {
-        size = "5Gi"
+    port {
+      name        = "postgres"
+      port        = 5432
+      target_port = "postgres"
+    }
+  }
+}
+
+
+resource "kubernetes_stateful_set_v1" "postgres" {
+  metadata {
+    name      = "postgres"
+    namespace = kubernetes_namespace.postgres.metadata[0].name
+    labels = {
+      app                         = "postgres"
+      "app.kubernetes.io/name"    = "postgres"
+      "app.kubernetes.io/version" = local.postgres_version
+    }
+  }
+  spec {
+    service_name = kubernetes_service_v1.postgres-hl.metadata[0].name
+    replicas     = 1
+    selector {
+      match_labels = {
+        app                      = "postgres"
+        "app.kubernetes.io/name" = "postgres"
       }
     }
-  })]
+    template {
+      metadata {
+        labels = {
+          app                      = "postgres"
+          "app.kubernetes.io/name" = "postgres"
+        }
+      }
+      spec {
+        container {
+          name  = "postgres"
+          image = "docker.io/library/postgres:${local.postgres_version}"
+          port {
+            name           = "postgres"
+            container_port = 5432
+          }
+          env {
+            name  = "POSTGRES_USER"
+            value = "postgres"
+          }
+          env {
+            name  = "POSTGRES_PASSWORD"
+            value = "postgres"
+          }
+          env {
+            name  = "PGDATA"
+            value = "/var/lib/postgresql/17/docker"
+          }
+          resources {
+            requests = {
+              memory = "512Mi"
+            }
+            limits = {
+              memory = "512Mi"
+            }
+          }
+          volume_mount {
+            name       = "pgdata"
+            mount_path = "/var/lib/postgresql"
+          }
+        }
+      }
+    }
+    volume_claim_template {
+      metadata {
+        name = "pgdata"
+      }
+      spec {
+        storage_class_name = "ceph-block"
+        access_modes       = ["ReadWriteOnce"]
+        resources {
+          requests = {
+            storage = "5Gi"
+          }
+        }
+      }
+    }
+  }
 }
