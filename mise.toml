@@ -9,3 +9,12 @@ run = "terragrunt hcl fmt"
 [tasks.terraform-fmt]
 description = "Format all Terraform files."
 run = "terraform fmt -recursive"
+
+[tasks.gen-graph]
+description = "Generate a graph of the Terragrunt modules."
+run = """
+for cluster in "home/lol-iot"; do
+    terragrunt dag graph --working-dir $cluster/terragrunt \
+        | dot -Tsvg -Nshape=rect -Gsplines=ortho -o assets/$cluster/terragrunt/graph.svg;
+done
+"""

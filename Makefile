@@ -50,10 +50,3 @@ decrypt: ## Decrypt a secret for terraform. Usage: `make decrypt secret='<encryp
 		| base64 -d \
 		| openssl pkeyutl -decrypt -inkey private.pem \
 		| xargs -0 echo
-
-.PHONY: gen-graph
-gen-graph: ## Generate graph of clusters.
-	@for cluster in "home/lol-iot"; do \
-		terragrunt graph-dependencies --terragrunt-working-dir $$cluster/terragrunt \
-		| dot -Tsvg -Nshape=rect -Gsplines=ortho -o assets/$$cluster/terragrunt/graph.svg; \
-	done
