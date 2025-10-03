@@ -15,7 +15,9 @@ resource "helm_release" "cilium" {
         enabled = true
       }
       gatewayAPI = {
-        enabled = true
+        enabled           = true
+        enableAppProtocol = true
+        enableAlpn        = true
       }
       l7Proxy = true
       ipam = {

@@ -29,7 +29,7 @@ resource "kubernetes_service_v1" "redis_hl" {
 
 resource "kubernetes_config_map_v1" "redis" {
   metadata {
-    name      = "redi"
+    name      = "redis"
     namespace = kubernetes_namespace_v1.authentik.metadata[0].name
     labels = {
       app                         = "redis"
