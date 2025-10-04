@@ -23,6 +23,11 @@ resource "helm_release" "netbird" {
       relay = {
         authSecret = rsadecrypt("Td6lDrfFUDoqcbeUmz5Jgd+/1/qRTJc0oPiXH/KZyyUwZJRBWSrO2Ck/bt1k+C1ONk9XFUk40LBAnW4I7vb2PQpPXBsgRRoZ913nQwm2Ag+vODQ9j3YV/VCnfk7xu2L8kOp2V178vQ9vyV7WS4icF51tfuVo5VOhaPcX/tf7xYHgOVhp8TjTibeUTCU8thX1o5q5rKCqN9dTfcde6MRfrDeW3To1wl/c2aehUGtFOcrYF5KC80n/6YQHde1qBgQ0xyVP7L+oPBmctTcR96GD7wR8SbcSftO9A78fY63JSsGZnG6DAZZVBy6Uj2pOhQrG3cxQ2/Y619WFkClCH7W2nMITDDfzwTokBqJc5Cz+6d+HQ1O//tXtsAlPd6Jb3PujMpVHgp2jpJ6tBXTVuI1vYV/PX70RYSFudJZRMam5j/opzJuSjyUiku2MKM+gCfmuxSrWJzc1HGle6Jw3m1271Dgcw40v9Vm9K55HlVBo2Cy3P4eb0uf4jVNSzGY7fGc3Lx3Vvl2HbHLklaJkc9PrB2FnL0MJtV0QPxMAMmDmjvYhU63gsJJfxEztsI2luQSoxEcbic7Grp4qLBUZk8psmvl4IxlWBowQ/ZQCg55pslpswrKXYyKCDYKvtNRsCgdEQFeJ4yRTjDrxyJipNvDOzslH0oWHcvVeor7F7HZ0GFE=", local.private_pem)
       }
+      dashboard = {
+        image = {
+            tag = "v2.19.1"
+        }
+      }
       oidc = {
         issuer         = "https://auth.lol-iot.loliot.net/application/o/netbird"
         clientID       = "U03ndTXqloZ17avRB7nYuHhQ3p8dDi9TQSBiFc7N"
