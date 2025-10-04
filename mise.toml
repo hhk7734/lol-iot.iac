@@ -18,3 +18,32 @@ for cluster in "home/lol-iot"; do
         | dot -Tsvg -Nshape=rect -Gsplines=ortho -o assets/$cluster/terragrunt/graph.svg;
 done
 """
+
+[tasks.encrypt]
+description = "Encrypt a secret for Terraform."
+run = """
+read -sp 'Enter secret to encrypt: ' secret \
+&& printf "\\033[36m${secret}\\033[0m\nEncrypted secret: " \
+&& printf "${secret}" \
+| openssl pkeyutl -encrypt -pubin -inkey public.pem \
+| base64 \
+| tr -d '\n'\
+| xargs -0 printf "\\033[36m%s\\033[0m\n"
+"""
+
+[tasks.decrypt]
+description = "Decrypt a secret for Terraform."
+run = """
+read -sp "Enter secret to decrypt: " secret \
+&& printf "\\033[36m${secret}\\033[0m\nDecrypted secret: " \
+&& printf "${secret}" \
+| base64 -d \
+| openssl pkeyutl -decrypt -inkey private.pem \
+| xargs -0 printf "\\033[36m%s\\033[0m\n"
+"""
+
+[tasks.backup]
+description = "Backup all Terraform state files."
+run = """
+tar -czvf `date "+%Y-%m-%d-%H"`_local_secret.tar.gz local_secret
+"""
