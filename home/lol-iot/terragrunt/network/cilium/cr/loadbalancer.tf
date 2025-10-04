@@ -22,7 +22,7 @@ resource "kubernetes_manifest" "ciliumloadbalancerippool" {
       blocks = [
         {
           start = "172.31.254.210"
-          end   = "172.31.254.250"
+          stop  = "172.31.254.250"
         }
       ]
     }
